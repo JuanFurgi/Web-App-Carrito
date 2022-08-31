@@ -2,5 +2,7 @@
 {
     public class Cliente : Persona
     {
+        public int DNI { get; set; }    
+
     }
 }
