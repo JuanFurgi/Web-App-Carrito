@@ -4,14 +4,14 @@
 
         public int Id { get; set; }
         
-        private int Activo { get; set; }
+        public int Activo { get; set; }
 
-        private int ClienteId { get; set; }
+        public int ClienteId { get; set; }
 
-        private Cliente Cliente { get; set; }
+        public Cliente Cliente { get; set; }
 
-        private List<CarritoItem> CarritoItems { get; set; }
+        public List<CarritoItem> CarritoItems { get; set; }
 
-        private int SubTotal { get; set; }
+        public int SubTotal { get; set; }
     }
 }
