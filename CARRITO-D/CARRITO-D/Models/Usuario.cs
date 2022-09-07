@@ -1,10 +1,13 @@
-﻿namespace CARRITO_D.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.Numerics;
+
+namespace CARRITO_D.Models
 {
-    public class Usuario : Persona
+    public class Usuario
     {
-        private string Password { get; set; }   
-
-
-
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
     }
 }
