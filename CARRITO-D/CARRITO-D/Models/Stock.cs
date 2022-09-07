@@ -2,5 +2,7 @@
 {
     public class Stock
     {
+        public int StockId { get; set; }
+
     }
 }
