@@ -2,6 +2,7 @@
 {
     public class Empleado : Persona
     {
-        public int EmpleadoId { get; set; }
+     public int Legajo { get; set; }
+
     }
 }
