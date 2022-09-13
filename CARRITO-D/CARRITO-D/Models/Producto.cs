@@ -6,7 +6,7 @@
         public Boolean Activo { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public int PrecioVigente { get; set; }
+        public float PrecioVigente { get; set; }  //usa 32 bits de espacio en vez de los 64 de double. Optimizacion de memoria
         public Categoria Categoria { get; set; }
             
 

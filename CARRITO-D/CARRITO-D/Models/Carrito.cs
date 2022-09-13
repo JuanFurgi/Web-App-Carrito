@@ -6,6 +6,5 @@
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
         public List<CarritoItem> CarritoItems { get; set; }
-        public int SubTotal { get; set; }
     }
 }
