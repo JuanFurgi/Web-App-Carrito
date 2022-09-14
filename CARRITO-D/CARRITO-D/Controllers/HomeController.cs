@@ -18,6 +18,8 @@ namespace CARRITO_D.Controllers
             return View();
         }
 
+
+
         public IActionResult Privacy()
         {
             return View();
