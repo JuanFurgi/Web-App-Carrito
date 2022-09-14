@@ -20,6 +20,7 @@ namespace CARRITO_D
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
