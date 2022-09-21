@@ -4,11 +4,13 @@ namespace CARRITO_D.Models
 {
     public class Persona
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [MaxLength(35, ErrorMessage = ErrorMsg.MsgMaxStr)]
         [MinLength(2, ErrorMessage = ErrorMsg.MsgMinStr)]
+//PODRIAMOS PONER StringLength(35, MinumLength=2, ErrorMsg.MsgEntreStr)
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
