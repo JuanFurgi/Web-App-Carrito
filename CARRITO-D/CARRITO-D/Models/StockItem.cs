@@ -15,5 +15,7 @@ namespace CARRITO_D.Models
 
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
+
+
     }
 }
