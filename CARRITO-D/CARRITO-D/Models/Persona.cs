@@ -15,6 +15,7 @@ namespace CARRITO_D.Models
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [MaxLength(35, ErrorMessage = ErrorMsg.MsgMaxStr)]
+        [Display(Name = Alias.NombreDeUsuario)]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
@@ -26,7 +27,8 @@ namespace CARRITO_D.Models
         public string Email { get; set; }
         public string Direccion { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date,ErrorMessage = ErrorMsg.TipoInvalido)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime FechaAlta { get; set;}
         public int Telefono { get; set; } 
 
