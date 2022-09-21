@@ -2,7 +2,7 @@
 
 namespace CARRITO_D.Models
 {
-    public abstract class Persona
+    public class Persona
     {
         public int Id { get; set; }
 

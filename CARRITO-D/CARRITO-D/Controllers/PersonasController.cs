@@ -9,9 +9,5 @@ namespace CARRITO_D.Controllers
             return View();
         }
 
-        public IActionResult Create(string nombre, string apellido)
-        {
-            
-        }
     }
 }
