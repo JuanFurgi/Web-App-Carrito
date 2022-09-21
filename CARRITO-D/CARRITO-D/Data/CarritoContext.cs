@@ -11,7 +11,7 @@ namespace CARRITO_D.Data
 
         }
         
-        public DbSet<Persona> personas { get; set; }
+        public DbSet<Persona> personas { get; set; } 
 
     }
 }
