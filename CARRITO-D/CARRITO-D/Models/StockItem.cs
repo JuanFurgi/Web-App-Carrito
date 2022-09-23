@@ -5,15 +5,20 @@ namespace CARRITO_D.Models
 {
     public class StockItem
     {
-        [Key, ForeignKey("Sucursal")]
-        public int Id { get; set; }
+        
         public int Cantidad { get; set; }
 
-  //LO SACAMOS PARA HACER UNA RELACION DE QUE UN STOCKITEM DEBE TENER UNA SUCURSAL
-        //public int SucursalId { get; set; }
-        public Sucursal Sucursal { get; set; }
+        [Required(ErrorMessage =ErrorMsg.MsgReq)]
+        [Key]
+        [Display(Name = Alias.SucursalId)]
+        public int SucursalId { get; set; }
 
+        [Required(ErrorMessage = ErrorMsg.MsgReq)]
+        [Key]
+        [Display(Name = Alias.ProductoId)]
         public int ProductoId { get; set; }
+
+        public Sucursal Sucursal { get; set; }
         public Producto Producto { get; set; }
 
 
