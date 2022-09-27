@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CARRITO_D.Helpers;
 
 namespace CARRITO_D.Models
 {
