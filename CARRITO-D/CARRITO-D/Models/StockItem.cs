@@ -1,19 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CARRITO_D.Helpers;
 
 namespace CARRITO_D.Models
 {
     public class StockItem
     {
-        [Key, ForeignKey("Sucursal")]
-        public int Id { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public int Cantidad { get; set; }
 
-  //LO SACAMOS PARA HACER UNA RELACION DE QUE UN STOCKITEM DEBE TENER UNA SUCURSAL
-        //public int SucursalId { get; set; }
-        public Sucursal Sucursal { get; set; }
+        [Required(ErrorMessage =ErrorMsg.MsgReq)]
+        [Key]
+        [Display(Name =Alias.Sucursal)]
+        public int SucursalId { get; set; }
 
+        [Required(ErrorMessage = ErrorMsg.MsgReq)]
+        [Key]
+        [Display(Name =Alias.Producto)]
         public int ProductoId { get; set; }
+
+        public Sucursal Sucursal { get; set; }
         public Producto Producto { get; set; }
 
 
