@@ -11,13 +11,12 @@ namespace CARRITO_D.Models
         [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)]
         public float Subtotal { get; set; }
 
-        [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PORQUE NO SABEMOS CUAL SERIA EL PRECIO MAX AL QUE UN PRODUCTO PODRIA LLEGAR A VALER
         [Display(Name = Alias.ValorUnidad)]
         public float ValorUnitario { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
-        [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //POR AHORA DEJAMOS MAX VALUE HASTA QUE SEPAMOS COMO RELACIONARLA CON EL STOCKITEM
+        [Range(1, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PONEMOS 1 PORQUE CREEMOS QUE PARA ESTAR EN CARRITOITEM DEBE TENER POR LO MENOS 1
         public int Cantidad { get; set; }
 
         public int CarritoId { get; set; }

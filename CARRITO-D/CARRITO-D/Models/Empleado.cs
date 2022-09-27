@@ -1,8 +1,12 @@
-﻿namespace CARRITO_D.Models
+﻿using CARRITO_D.Helpers;
+using System.ComponentModel.DataAnnotations;
+
+namespace CARRITO_D.Models
 {
     public class Empleado : Persona
     {
-     public int Legajo { get; set; }
+        [Required(ErrorMessage= ErrorMsg.MsgReq)]
+        public int Legajo { get; set; }
 
     }
 }

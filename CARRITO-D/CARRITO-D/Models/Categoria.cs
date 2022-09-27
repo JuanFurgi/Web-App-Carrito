@@ -7,7 +7,6 @@ namespace CARRITO_D.Models
     {
         public int CategoriaId { get; set; }
 
-        [Required(ErrorMessage =ErrorMsg.MsgReq)]
         [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = ErrorMsg.MsgRegExpression)]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }

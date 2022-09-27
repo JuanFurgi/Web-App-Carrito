@@ -6,17 +6,18 @@ namespace CARRITO_D.Models
 {
     public class StockItem
     {
-        
+
+        [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public int Cantidad { get; set; }
 
         [Required(ErrorMessage =ErrorMsg.MsgReq)]
         [Key]
-        [Display(Name = Alias.SucursalId)]
+        [Display(Name =Alias.Sucursal)]
         public int SucursalId { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [Key]
-        [Display(Name = Alias.ProductoId)]
+        [Display(Name =Alias.Producto)]
         public int ProductoId { get; set; }
 
         public Sucursal Sucursal { get; set; }

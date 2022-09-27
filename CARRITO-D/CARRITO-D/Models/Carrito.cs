@@ -7,10 +7,8 @@ namespace CARRITO_D.Models
 
         public int CarritoId { get; set; }
 
-        [Required(ErrorMessage =ErrorMsg.MsgReq)]
         public Boolean Activo { get; set; }
 
-        [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
         [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public float Subtotal { get; set; }

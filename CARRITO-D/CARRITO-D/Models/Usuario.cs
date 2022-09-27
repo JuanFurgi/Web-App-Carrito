@@ -8,6 +8,7 @@ namespace CARRITO_D.Models
     {
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [DataType(DataType.Password, ErrorMessage =ErrorMsg.TipoInvalido)]
+        [MinLength(5, ErrorMessage =ErrorMsg.MsgMinStr)]
         public string Password { get; set; }
     }
 }

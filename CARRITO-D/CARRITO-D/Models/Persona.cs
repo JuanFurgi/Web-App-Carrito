@@ -16,16 +16,17 @@ namespace CARRITO_D.Models
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
+        [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = ErrorMsg.MsgRegExpression)]
+        [MaxLength(25, ErrorMessage = ErrorMsg.MsgMaxStr)]
+        [MinLength(2, ErrorMessage = ErrorMsg.MsgMinStr)]
+        public string Apellido { get; set; }
+
+        [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [MaxLength(35, ErrorMessage = ErrorMsg.MsgMaxStr)]
         [MinLength(4, ErrorMessage = ErrorMsg.MsgMinStr)]
         [Display(Name = Alias.NombreDeUsuario)]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = ErrorMsg.MsgReq)]
-        [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = ErrorMsg.MsgRegExpression)]
-        [MaxLength(25, ErrorMessage = ErrorMsg.MsgMaxStr)]
-        [MinLength(2, ErrorMessage = ErrorMsg.MsgMinStr)]
-        public string Apellido { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [EmailAddress(ErrorMessage = ErrorMsg.TipoInvalido)]
