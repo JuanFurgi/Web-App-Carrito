@@ -1,4 +1,7 @@
-﻿namespace CARRITO_D
+﻿using CARRITO_D.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace CARRITO_D
 {
     public static class StartUp
     {
@@ -16,6 +19,9 @@
 
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
+            //Configurado el entorno aplicativo para tener un servicio de acceso a nuestra Base de Datos
+            builder.Services.AddDbContext<CarritoContext>(options => options.UseInMemoryDatabase("CarritoDb"));
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
         }

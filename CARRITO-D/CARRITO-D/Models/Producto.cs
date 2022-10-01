@@ -20,7 +20,10 @@ namespace CARRITO_D.Models
 
 //LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA
         public Categoria Categoria { get; set; }
-            
+
+        public List<CarritoItem> CarritosItem { get; set; }
+
+        public List<StockItem> StocksItem { get; set; }
 
     }
 }
