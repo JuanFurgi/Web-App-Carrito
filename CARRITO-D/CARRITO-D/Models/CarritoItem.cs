@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using CARRITO_D.Helpers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CARRITO_D.Models
 {
     public class CarritoItem {
-        public int CarritoItemId { get; set; }
 
         [DataType(DataType.Currency, ErrorMessage =ErrorMsg.TipoInvalido)]
         [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)]
@@ -19,9 +19,11 @@ namespace CARRITO_D.Models
         [Range(1, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PONEMOS 1 PORQUE CREEMOS QUE PARA ESTAR EN CARRITOITEM DEBE TENER POR LO MENOS 1
         public int Cantidad { get; set; }
 
+        [Key, ForeignKey("Carrito")]
         public int CarritoId { get; set; }
         public Carrito Carrito { get; set; }
 
+        [Key, ForeignKey("Producto")]
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
     }
