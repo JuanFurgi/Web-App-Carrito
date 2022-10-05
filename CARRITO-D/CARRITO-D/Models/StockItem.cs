@@ -10,13 +10,11 @@ namespace CARRITO_D.Models
         [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public int Cantidad { get; set; }
 
-        [Required(ErrorMessage =ErrorMsg.MsgReq)]
-        [Key]
+        [Key, ForeignKey("Sucursal")]
         [Display(Name =Alias.Sucursal)]
         public int SucursalId { get; set; }
 
-        [Required(ErrorMessage = ErrorMsg.MsgReq)]
-        [Key]
+        [Key, ForeignKey("Producto")]
         [Display(Name =Alias.Producto)]
         public int ProductoId { get; set; }
 

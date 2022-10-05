@@ -43,6 +43,7 @@ namespace CARRITO_D.Models
         public DateTime FechaAlta { get; set;}
 
         [DataType(DataType.PhoneNumber,ErrorMessage = ErrorMsg.TipoInvalido)]
+        [Range(1000000000, 9999999999, ErrorMessage =ErrorMsg.TipoInvalido)]
         public int Telefono { get; set; } 
 
     }
