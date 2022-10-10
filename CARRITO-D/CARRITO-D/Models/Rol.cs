@@ -1,0 +1,33 @@
+﻿using CARRITO_D.Helpers;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
+namespace CARRITO_D.Models
+{
+    public class Rol : IdentityRole<int>
+    {
+        //HEREDA DE Identity
+        //public int Id { get; set; }
+
+        #region Constructores
+        public Rol() : base(){}
+        public Rol(string name) : base(name) {}
+
+        #endregion
+
+        #region Propiedades
+        [Display(Name = Alias.RolName)]
+        public override string Name
+        {
+            get { return base.Name; }
+            set { base.Name = value; }
+        }
+
+        public override string NormalizedName { 
+            get => base.NormalizedName;
+            set => base.NormalizedName = value;
+        }
+
+        #endregion
+    }
+}

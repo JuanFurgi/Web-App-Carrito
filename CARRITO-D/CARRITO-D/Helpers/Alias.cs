@@ -7,5 +7,6 @@
         public const string ValorUnidad = "Valor por Unidad";
         public const string Sucursal = "Sucursal";
         public const string Producto = "Producto";
+        public const string RolName = "Nombre";
     }
 }

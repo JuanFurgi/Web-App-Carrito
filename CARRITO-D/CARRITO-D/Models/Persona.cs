@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CARRITO_D.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace CARRITO_D.Models
 {
-    public class Persona
+    public class Persona : IdentityUser<int>
     {
-        [Key]
-        public int Id { get; set; }
+        
+        //public int Id { get; set; } LA HEREDA DE IdentityUser
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = ErrorMsg.MsgRegExpression)]
@@ -25,12 +26,18 @@ namespace CARRITO_D.Models
         [MaxLength(35, ErrorMessage = ErrorMsg.MsgMaxStr)]
         [MinLength(4, ErrorMessage = ErrorMsg.MsgMinStr)]
         [Display(Name = Alias.NombreDeUsuario)]
-        public string UserName { get; set; }
+        public override string UserName { 
+            get { return base.UserName; }
+            set { base.UserName = value; }
+        }
 
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [EmailAddress(ErrorMessage = ErrorMsg.TipoInvalido)]
-        public string Email { get; set; }
+        public override string Email {
+            get { return base.Email; }
+            set { base.Email = value; }
+        }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [MaxLength(25, ErrorMessage = ErrorMsg.MsgMaxStr)]

@@ -1,9 +1,11 @@
 ﻿using CARRITO_D.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CARRITO_D.Data
 {
-    public class CarritoContext : DbContext
+    public class CarritoContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
 
         public CarritoContext(DbContextOptions options) : base(options)
@@ -39,8 +41,18 @@ namespace CARRITO_D.Data
                 .HasOne(si => si.Producto)
                 .WithMany(i => i.StocksItem)
                 .HasForeignKey(si => si.ProductoId);
+
+
+            #region Establecer Nombres para IdentityStores
+
+
+            modelBuilder.Entity<IdentityUser<int>>().ToTable("Personas");
+            modelBuilder.Entity<IdentityRole<int>>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("PersonasRoles");
+
+            #endregion
         }
-        
+
         public DbSet<Persona> Personas { get; set; }
 
         public DbSet<Cliente> Clientes { get; set; }
@@ -63,6 +75,7 @@ namespace CARRITO_D.Data
 
         public DbSet<Sucursal> Sucursales { get; set; }
 
+        public DbSet<Rol> Roles { get; set; }
 
 
     }
