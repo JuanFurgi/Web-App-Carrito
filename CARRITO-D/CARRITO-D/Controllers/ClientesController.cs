@@ -97,7 +97,32 @@ namespace CARRITO_D.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    var clienteEnDb = _context.Clientes.Find(cliente.Id);
+
+                    if (clienteEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    clienteEnDb.Nombre = cliente.Nombre;
+                    clienteEnDb.Apellido = cliente.Apellido;
+                    clienteEnDb.DNI = cliente.DNI;
+                    clienteEnDb.Telefono = cliente.Telefono;
+                    clienteEnDb.Direccion = cliente.Direccion;
+                    clienteEnDb.FechaAlta = cliente.FechaAlta;
+
+                    if(!ActualizarMail(cliente, clienteEnDb))
+                    {
+                        ModelState.AddModelError("Email", "El Mail ya esta en uso");
+                        return View(cliente);
+                    }
+                    if(!ActualizarUsuario(cliente, clienteEnDb))
+                    {
+                        ModelState.AddModelError("UserName", "El UserName ya esta en uso");
+                        return View(cliente);
+                    }
+
+                    _context.Update(clienteEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -114,6 +139,69 @@ namespace CARRITO_D.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
+        }
+
+        private bool ActualizarMail(Cliente cli, Cliente cliDb)
+        {
+            bool resultado = true;
+
+            try
+            {
+                if (!cliDb.NormalizedEmail.Equals(cli.Email.ToUpper()))
+                {
+                    if (ExitsEmail(cli.Email))
+                    {
+                        resultado = false;
+                    }
+                    else
+                    {
+                        cliDb.Email = cli.Email;
+                        cliDb.NormalizedEmail = cli.Email.ToUpper();
+                    }
+                }
+            }
+            catch
+            {
+                resultado = false;
+            }
+
+            return resultado;
+        }
+        private bool ActualizarUsuario(Cliente cli, Cliente cliDb)
+        {
+            bool resultado = true;
+
+            try
+            {
+                if (!cliDb.NormalizedUserName.Equals(cli.UserName.ToUpper()))
+                {
+                    if (ExitsUser(cli.UserName))
+                    {
+                        resultado = false;
+                    }
+                    else
+                    {
+                        cliDb.UserName = cli.UserName;
+                        cliDb.NormalizedUserName = cli.UserName.ToUpper();
+                    }
+                }
+            }
+            catch
+            {
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
+        private bool ExitsEmail(string email)
+        {
+            return _context.Personas.Any(p => p.NormalizedEmail.Equals(email.ToUpper()));
+        }
+
+        private bool ExitsUser(string user)
+        {
+            return _context.Personas.Any(p => p.NormalizedUserName.Equals(user.ToUpper()));
         }
 
         // GET: Clientes/Delete/5

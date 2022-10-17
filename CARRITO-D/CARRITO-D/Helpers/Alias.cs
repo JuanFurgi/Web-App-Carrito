@@ -8,5 +8,7 @@
         public const string Sucursal = "Sucursal";
         public const string Producto = "Producto";
         public const string RolName = "Nombre";
+        public const string Password = "Contraseña";
+        public const string ConfirmarPassword = "Confirmar Contraseña";
     }
 }
