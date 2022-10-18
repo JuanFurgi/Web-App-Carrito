@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CARRITO_D.Models;
 using CARRITO_D.ViewModels;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CARRITO_D.Controllers
 {
@@ -16,6 +17,8 @@ namespace CARRITO_D.Controllers
             this._signInManager = signInManager;
 
         }
+
+        #region Registracion
         public IActionResult Registrar()
         {
             return View();
@@ -48,5 +51,46 @@ namespace CARRITO_D.Controllers
 
             return View(viewmodel);
         }
+
+        #endregion
+
+        #region Inicio de sesion
+
+
+        public IActionResult IniciarSesion()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IniciarSesion(Login viewmodel)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultado = await _signInManager.PasswordSignInAsync(viewmodel.UserName, viewmodel.Password, viewmodel.Recordarme, false);
+
+                if (resultado.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Inicio de sesion invalido");
+            }
+
+
+            return View(viewmodel);
+        }
+
+        #endregion
+
+        #region Cerrrar sesion
+
+        public async Task<IActionResult> CerrarSesion()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
     }
 }
