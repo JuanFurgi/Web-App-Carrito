@@ -13,8 +13,10 @@ namespace CARRITO_D.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string mensaje)
         {
+            ViewBag.Mensaje = mensaje;
+
             return View();
         }
 
