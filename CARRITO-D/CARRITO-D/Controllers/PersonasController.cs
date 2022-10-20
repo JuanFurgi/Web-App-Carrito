@@ -58,7 +58,7 @@ namespace CARRITO_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(persona);
+                _context.Personas.Add(persona);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -97,8 +97,23 @@ namespace CARRITO_D.Controllers
             {
                 try
                 {
-                    _context.Update(persona);
-                    await _context.SaveChangesAsync();
+                    var personaEnDB =  _context.Personas.Find(persona.Id);
+                    if(personaEnDB != null)
+                    {
+                        personaEnDB.Nombre = persona.Nombre;
+                        personaEnDB.Apellido = persona.Apellido;
+                        personaEnDB.UserName = persona.UserName;
+                        personaEnDB.Email = persona.Email;
+                        personaEnDB.Direccion = persona.Direccion;
+                        personaEnDB.Telefono = persona.Telefono;
+
+                        _context.Personas.Update(personaEnDB);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
