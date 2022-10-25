@@ -44,10 +44,10 @@ namespace CARRITO_D.Models
         [MinLength(5, ErrorMessage = ErrorMsg.MsgMinStr)]
         public string Direccion { get; set; }
 
-        [DataType(DataType.Date,ErrorMessage = ErrorMsg.TipoInvalido)]
+        [DataType(DataType.Date, ErrorMessage = ErrorMsg.TipoInvalido)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         [Display(Name = Alias.FechaDeCreacion)]
-        public DateTime FechaAlta { get; set;}
+        public DateTime FechaAlta { get; set; } = DateTime.Now; 
 
         [DataType(DataType.PhoneNumber,ErrorMessage = ErrorMsg.TipoInvalido)]
         [Range(1000000000, 9999999999, ErrorMessage =ErrorMsg.TipoInvalido)]

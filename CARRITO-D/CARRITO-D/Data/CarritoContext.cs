@@ -59,8 +59,6 @@ namespace CARRITO_D.Data
 
         public DbSet<Empleado> Empleados { get; set; }
 
-        public DbSet<Usuario> Usuarios { get; set; }
-
         public DbSet<Carrito> Carritos { get; set; }
 
         public DbSet<CarritoItem> CarritosItems { get; set; }

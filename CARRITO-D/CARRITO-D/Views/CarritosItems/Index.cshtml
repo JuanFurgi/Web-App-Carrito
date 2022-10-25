@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Subtotal)
+                @Html.DisplayNameFor(model => model.Carrito)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ValorUnitario)
+                @Html.DisplayNameFor(model => model.Producto)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Carrito)
+                @Html.DisplayNameFor(model => model.ValorUnitario)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Producto)
+                @Html.DisplayNameFor(model => model.Subtotal)
             </th>
             <th></th>
         </tr>
@@ -34,19 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Subtotal)
+                @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ValorUnitario)
+                @Html.DisplayFor(modelItem => item.Producto.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
+                @Html.DisplayFor(modelItem => item.ValorUnitario)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Producto.Id)
+                @Html.DisplayFor(modelItem => item.Subtotal)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

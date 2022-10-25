@@ -1,5 +1,6 @@
 ﻿using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,13 @@ namespace CARRITO_D
                 opciones.Password.RequiredLength = 5;
             }
             );
+
+            builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opciones =>
+            {
+                opciones.LoginPath = "/Account/IniciarSesion";
+                opciones.AccessDeniedPath = "/Account/AccesoDenegado";
+                opciones.Cookie.Name = "IdentidadCarritoApp";
+            });
             //Password por defecto en pre-carga: Password1!
 
             /* Configuraciones por defecto para Password son
@@ -63,6 +71,7 @@ namespace CARRITO_D
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
 
             app.UseRouting();
 
