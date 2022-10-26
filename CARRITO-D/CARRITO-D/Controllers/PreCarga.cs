@@ -27,7 +27,7 @@ namespace CARRITO_D.Controllers
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
-            CrearProductos().Wait();
+            CrearProductos();
 
             return RedirectToAction("Index", "Home", new { mensaje="Proceso de Seed Finalizado"});
         }
@@ -43,19 +43,25 @@ namespace CARRITO_D.Controllers
 
         }
 
-        private async Task CrearProductos()
+        private void CrearProductos()
         {
-            Producto producto = new Producto()
+            if (_context.Categorias.Any())
             {
-                Nombre = "Coca",
-                CategoriaId = 1,
-                Activo = true,
-                PrecioVigente = 120,
-                Descripcion="Bebida marca Coca-Company"
-            };
+                Producto producto = new Producto()
+                {
+                    Nombre = "Coca",
+                    CategoriaId = _context.Categorias.First().CategoriaId,
+                    Activo = true,
+                    PrecioVigente = 120,
+                    Descripcion = "Bebida marca Coca-Company"
+                };
+                _context.Productos.Add(producto);
+                _context.SaveChanges();
+            }
 
-            _context.Productos.Add(producto);
-            _context.SaveChanges();
+            
+
+            
         }
 
         private async Task CrearClientes()

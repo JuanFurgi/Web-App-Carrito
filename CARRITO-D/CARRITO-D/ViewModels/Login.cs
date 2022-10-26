@@ -6,9 +6,6 @@ namespace CARRITO_D.ViewModels
 {
     public class Login
     {
-        [Required(ErrorMessage = ErrorMsg.MsgReq)]
-        [EmailAddress(ErrorMessage = ErrorMsg.TipoInvalido)]
-        public string Email { get; set; }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [MaxLength(35, ErrorMessage = ErrorMsg.MsgMaxStr)]

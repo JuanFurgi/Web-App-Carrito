@@ -7,16 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Identity;
+using CARRITO_D.Helpers;
 
 namespace CARRITO_D.Controllers
 {
     public class EmpleadosController : Controller
     {
         private readonly CarritoContext _context;
+        private readonly UserManager<Persona> _userManager;
+        private readonly SignInManager<Persona> _signInManager;
 
-        public EmpleadosController(CarritoContext context)
+        public EmpleadosController(CarritoContext context, UserManager<Persona> usermanager, SignInManager<Persona>signInManager)
         {
             _context = context;
+            this._userManager = usermanager;
+            this._signInManager = signInManager;
         }
 
         // GET: Empleados
@@ -58,9 +64,28 @@ namespace CARRITO_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(empleado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var resultadoCreate = await _userManager.CreateAsync(empleado, Configs.Password);
+
+                if (resultadoCreate.Succeeded)
+                {
+                    var resultadoAddRole = await _userManager.AddToRoleAsync(empleado, Configs.EmpleadoRolName);
+
+                    if (resultadoAddRole.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(empleado, false);
+                        return RedirectToAction("Index", "Empleados", new { id = empleado.Id });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.EmpleadoRolName}");
+                    }
+
+                }
+
+                foreach (var error in resultadoCreate.Errors)
+                {
+                    ModelState.AddModelError(String.Empty, error.Description);
+                }
             }
             return View(empleado);
         }

@@ -4,18 +4,16 @@ using CARRITO_D.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CARRITO_D.Data.Migrations
+namespace CARRITO_D.Migrations
 {
     [DbContext(typeof(CarritoContext))]
-    [Migration("20221010210149_AgregadoIdentity")]
-    partial class AgregadoIdentity
+    partial class CarritoContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,10 +118,16 @@ namespace CARRITO_D.Data.Migrations
             modelBuilder.Entity("CARRITO_D.Models.Producto", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
@@ -136,6 +140,8 @@ namespace CARRITO_D.Data.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Productos");
                 });
@@ -458,13 +464,6 @@ namespace CARRITO_D.Data.Migrations
                     b.HasDiscriminator().HasValue("Empleado");
                 });
 
-            modelBuilder.Entity("CARRITO_D.Models.Usuario", b =>
-                {
-                    b.HasBaseType("CARRITO_D.Models.Persona");
-
-                    b.HasDiscriminator().HasValue("Usuario");
-                });
-
             modelBuilder.Entity("CARRITO_D.Models.Carrito", b =>
                 {
                     b.HasOne("CARRITO_D.Models.Cliente", "Cliente")
@@ -518,7 +517,7 @@ namespace CARRITO_D.Data.Migrations
                 {
                     b.HasOne("CARRITO_D.Models.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
