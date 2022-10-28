@@ -73,8 +73,10 @@ namespace CARRITO_D.Controllers
         #region Inicio de sesion
 
         [AllowAnonymous]
-        public IActionResult IniciarSesion()
+        public IActionResult IniciarSesion(string returnurl)
         {
+            TempData["url"] = returnurl;
+
             return View();
         }
 
@@ -82,12 +84,19 @@ namespace CARRITO_D.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IniciarSesion(Login viewmodel)
         {
+            var returnurl = TempData["url"] as string;
+
             if (ModelState.IsValid)
             {
                 var resultado = await _signInManager.PasswordSignInAsync(viewmodel.UserName, viewmodel.Password, viewmodel.Recordarme, false);
 
                 if (resultado.Succeeded)
                 {
+                    if (!string.IsNullOrEmpty(returnurl))
+                    {
+                        return Redirect(returnurl);
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
 
