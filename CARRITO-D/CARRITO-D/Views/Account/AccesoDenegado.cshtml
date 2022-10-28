@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Acceso Denegado";
+    bool hayreturn = !string.IsNullOrEmpty(ViewBag.ReturnUrl);
+}
+
+<div class="text-center text-black">
+    <h1>
+        Su Usuario no tiene permisos @if(hayreturn){<span>para acceder a '@ViewBag.ReturnUrl'</span>}
+    </h1>
+</div>
