@@ -5,6 +5,8 @@ using CARRITO_D.ViewModels;
 using System.Reflection.Metadata.Ecma335;
 using CARRITO_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using CARRITO_D.Data;
+using System.Configuration;
 
 namespace CARRITO_D.Controllers
 {
@@ -13,12 +15,13 @@ namespace CARRITO_D.Controllers
     {
         private readonly UserManager<Persona> _userManager;
         private readonly SignInManager<Persona> _signInManager;
+        private readonly CarritoContext _context;
 
-        public AccountController(UserManager<Persona> usermanager, SignInManager<Persona> signInManager)
+        public AccountController(UserManager<Persona> usermanager, SignInManager<Persona> signInManager, CarritoContext context)
         {
             this._userManager = usermanager;
             this._signInManager = signInManager;
-
+            this._context = context;
         }
 
         #region Registracion
@@ -119,10 +122,40 @@ namespace CARRITO_D.Controllers
 
         #endregion
 
+        #region Editar Perfil
+
+        public IActionResult EditarMiPerfil()
+        {
+
+            //OBTENER NOMBRE DE USUARIO
+            //string nombreUsuario = User.Identity.Name;
+
+            //OBTENGO ID
+            string personaId = _userManager.GetUserId(User);
+            //OTRA FORMA
+            // int personaId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (User.IsInRole("Cliente"))
+            {
+                return RedirectToAction("edit", "clientes", new { id = personaId });
+            }
+            else
+            {
+                return RedirectToAction("edit", "empleados", new { id = personaId });
+            }
+            
+        }
+
+
+        #endregion
+
         public IActionResult AccesoDenegado(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+        
+
+       
     }
 }
