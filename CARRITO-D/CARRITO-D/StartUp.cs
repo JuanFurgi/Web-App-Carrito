@@ -1,4 +1,7 @@
 ﻿using CARRITO_D.Data;
+using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CARRITO_D
@@ -20,7 +23,36 @@ namespace CARRITO_D
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
             //Configurado el entorno aplicativo para tener un servicio de acceso a nuestra Base de Datos
-            builder.Services.AddDbContext<CarritoContext>(options => options.UseInMemoryDatabase("CarritoDb"));
+            //builder.Services.AddDbContext<CarritoContext>(options => options.UseInMemoryDatabase("CarritoDb"));
+            builder.Services.AddDbContext<CarritoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CarritoDBCS")));
+
+
+            #region Identity
+
+            builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<CarritoContext>();
+
+            builder.Services.Configure<IdentityOptions>(opciones =>
+            {
+                opciones.Password.RequireDigit = false;
+                opciones.Password.RequiredLength = 5;
+            }
+            );
+
+            builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opciones =>
+            {
+                opciones.LoginPath = "/Account/IniciarSesion";
+                opciones.AccessDeniedPath = "/Account/AccesoDenegado";
+                opciones.Cookie.Name = "IdentidadCarritoApp";
+            });
+            //Password por defecto en pre-carga: Password1!
+
+            /* Configuraciones por defecto para Password son
+             *  opciones.Password.RequireDigit = true;
+                opciones.Password.RequiredLength = 6;
+             * 
+             */
+
+            #endregion
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -36,11 +68,21 @@ namespace CARRITO_D
                 app.UseHsts();
             }
 
+            using (var servicescope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                servicescope.ServiceProvider.GetRequiredService<CarritoContext>().Database.Migrate();
+            }
+
+
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
+
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

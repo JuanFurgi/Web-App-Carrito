@@ -8,7 +8,7 @@ namespace CARRITO_D.Models
     {
 
         [Required(ErrorMessage =ErrorMsg.MsgReq)]
-        [RegularExpression(@"[0-9]{2}\.[0-9]{3}\.[0-9]{3}", ErrorMessage = "El DNI debe tener un formato NN.NNN.NNN")]
+        [Range(Restricciones.MinDNI, Restricciones.MaxDNI, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public int DNI { get; set; }
         public List<Carrito> Carritos { get; set; }
         public List<Compra> Compras { get; set; }   //Historial de compras Tal vez   

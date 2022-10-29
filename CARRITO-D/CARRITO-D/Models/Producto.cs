@@ -6,7 +6,7 @@ namespace CARRITO_D.Models
 {
     public class Producto
     {
-        [Key, ForeignKey("Categoria")]
+        [Key]
         public int Id { get; set; }
         public Boolean Activo { get; set; }
 
@@ -18,7 +18,8 @@ namespace CARRITO_D.Models
         [Range(1, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public float PrecioVigente { get; set; }  //usa 32 bits de espacio en vez de los 64 de double. Optimizacion de memoria
 
-//LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA
+        //LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA
+        public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
 
         public List<CarritoItem> CarritosItem { get; set; }
