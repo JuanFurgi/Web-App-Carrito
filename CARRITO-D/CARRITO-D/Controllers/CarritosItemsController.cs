@@ -47,11 +47,28 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: CarritosItems/Create
-        public IActionResult Create()
+        public IActionResult Create(int? productoId)
         {
-            ViewData["CarritoId"] = new SelectList(_context.Carritos, "CarritoId", "CarritoId");
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id");
-            return View();
+            if(productoId == null)
+            {
+                return NotFound();
+            }
+
+            var username = User.Identity.Name;
+            var usuarioEnDb = _context.Clientes.Include(c => c.Carritos).FirstOrDefault(c => c.NormalizedUserName == username.ToUpper());
+            var carritoDelUIsuario = usuarioEnDb.Carritos.FirstOrDefault(c => c.Activo);
+
+            var productoEnDb = _context.Productos.Find(productoId);
+
+            CarritoItem ci = new CarritoItem();
+
+            ci.CarritoId = carritoDelUIsuario.CarritoId;
+            ci.ProductoId = productoId.Value;
+            ci.ValorUnitario = productoEnDb.PrecioVigente;
+            ci.Cantidad = 1;
+            
+            
+            return View(ci);
         }
 
         // POST: CarritosItems/Create

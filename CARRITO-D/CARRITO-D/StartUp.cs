@@ -34,7 +34,7 @@ namespace CARRITO_D
             builder.Services.Configure<IdentityOptions>(opciones =>
             {
                 opciones.Password.RequireDigit = false;
-                opciones.Password.RequiredLength = 5;
+                opciones.Password.RequiredLength = 5;                
             }
             );
 
