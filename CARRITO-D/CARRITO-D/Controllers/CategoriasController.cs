@@ -56,6 +56,11 @@ namespace CARRITO_D.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoriaId,Nombre,Descripcion")] Categoria categoria)
         {
+            if(_context.Categorias.FirstOrDefault(c => c.Nombre == categoria.Nombre) != null)
+            {
+                return RedirectToAction("Create", "Categorias", new { mensaje = "Nombre de categoria ya existente"});
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(categoria);
