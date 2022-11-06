@@ -2,6 +2,7 @@
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CARRITO_D.Controllers
 {
@@ -62,6 +63,11 @@ namespace CARRITO_D.Controllers
 
         }
 
+        private Categoria encontrarCategoria(string nombreCategoria)
+        {
+            return _context.Categorias.First(c => c.Nombre == nombreCategoria);
+        }
+
         private void CrearProductos()
         {
             if (_context.Categorias.Any())
@@ -77,7 +83,7 @@ namespace CARRITO_D.Controllers
                 Producto producto2 = new Producto()
                 {
                     Nombre = "Pantalon",
-                    CategoriaId = _context.Categorias.Find(1).CategoriaId,
+                    CategoriaId = encontrarCategoria("Pantalones").CategoriaId,
                     Activo = true,
                     PrecioVigente = 5000,
                     Descripcion = "Pantalon de jean marca Klouth"
@@ -85,7 +91,7 @@ namespace CARRITO_D.Controllers
                 Producto producto3 = new Producto()
                 {
                     Nombre = "Short",
-                    CategoriaId = _context.Categorias.Find(2).CategoriaId,
+                    CategoriaId = encontrarCategoria("Shorts").CategoriaId,
                     Activo = true,
                     PrecioVigente = 2500,
                     Descripcion = "Short negro marca Klouth, con hebilla color dorado"
@@ -93,7 +99,7 @@ namespace CARRITO_D.Controllers
                 Producto producto4 = new Producto()
                 {
                     Nombre = "Buzo",
-                    CategoriaId = _context.Categorias.Find(3).CategoriaId,
+                    CategoriaId = encontrarCategoria("Buzos").CategoriaId,
                     Activo = true,
                     PrecioVigente = 10000,
                     Descripcion = "Buzo negro con logo de Klouth, con capucha y detalles dorados",
