@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
     public class SucursalesController : Controller
     {
         private readonly CarritoContext _context;
@@ -20,6 +22,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Sucursales
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
               return View(await _context.Sucursales.ToListAsync());
@@ -44,6 +47,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Sucursales/Create
+        [Authorize(Roles = "Empleado")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Create([Bind("SucursalId,Nombre,Direccion,Telefono,Email")] Sucursal sucursal)
         {
             if (ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Sucursales/Edit/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Sucursales == null)
@@ -86,6 +92,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int id, [Bind("SucursalId,Nombre,Direccion,Telefono,Email")] Sucursal sucursal)
         {
             if (id != sucursal.SucursalId)
@@ -117,6 +124,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Sucursales/Delete/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Sucursales == null)
