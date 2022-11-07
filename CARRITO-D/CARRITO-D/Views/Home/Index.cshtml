@@ -2,6 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if(ViewBag.Mensaje != null){
+    <div>
+        <p class="text-info">@ViewBag.Mensaje</p>
+    </div>
+}
+
 <div class="text-center">
     <h1 class="display-4">Bienvenido a Klouth</h1>
     <p style="color:#6c757d">Conectate con tu ropa</p>

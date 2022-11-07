@@ -9,6 +9,6 @@
         public const string TipoInvalido = "El campo {0} no es valido";
         public const string MsgMinMaxRange = "La propiedad {0}, debe estar entre {1} y {2}";
         public const string MsgMaxMinStr = "La propiedad {0}, debe estar entre {2} y {1}";
-
+        public const string IncPassword = "La contraseña no coincide";
     }
 }

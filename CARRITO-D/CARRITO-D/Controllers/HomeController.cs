@@ -13,17 +13,14 @@ namespace CARRITO_D.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string mensaje)
         {
+            ViewBag.Mensaje = mensaje;
+
             return View();
         }
 
 
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
