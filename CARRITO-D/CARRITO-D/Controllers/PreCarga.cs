@@ -12,7 +12,7 @@ namespace CARRITO_D.Controllers
         private readonly RoleManager<Rol> _roleManager;
         private readonly CarritoContext _context;
 
-        private readonly List<string> roles = new List<string>() {"Cliente", "Empleado", "Usuario" };
+        private readonly List<string> roles = new List<string>() {"Cliente", "Empleado"};
 
         public PreCarga(UserManager<Persona> userManager, RoleManager<Rol> roleManager, CarritoContext context)
         {
