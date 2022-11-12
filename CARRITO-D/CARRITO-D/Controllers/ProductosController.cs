@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly CarritoContext _context;
@@ -20,6 +22,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Productos
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var carritoContext = _context.Productos.Include(p => p.Categoria);
@@ -27,6 +30,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Productos/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Productos == null)
@@ -46,6 +50,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Productos/Create
+        [Authorize(Roles = "Empleado")]
         public IActionResult Create()
         {
             ViewData["Id"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId");
@@ -57,6 +62,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Create([Bind("Id,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
         {
             if (ModelState.IsValid)
@@ -70,6 +76,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Productos/Edit/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Productos == null)
@@ -91,6 +98,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
         {
             if (id != producto.Id)
@@ -123,6 +131,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Productos/Delete/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Productos == null)

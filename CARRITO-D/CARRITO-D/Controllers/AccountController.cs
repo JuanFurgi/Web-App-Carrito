@@ -7,6 +7,7 @@ using CARRITO_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using CARRITO_D.Data;
 using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CARRITO_D.Controllers
 {
@@ -44,28 +45,36 @@ namespace CARRITO_D.Controllers
                     UserName = viewmodel.UserName,
                 };
 
-                var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, viewmodel.Password);
-
-                if (resultadoCreate.Succeeded)
+                
+                if(_context.Personas.Any(c => c.NormalizedEmail == viewmodel.Email.ToUpper()))
                 {
-                    var resultadoAddRole = await _userManager.AddToRoleAsync(clienteNuevo, Configs.ClienteRolName);
-
-                    if (resultadoAddRole.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(clienteNuevo, false);
-                        return RedirectToAction("Edit", "Clientes", new { id = clienteNuevo.Id });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.ClienteRolName}");
-                    }
-                    
+                    ModelState.AddModelError(String.Empty, "Ya hay un cliente con ese Email registrado, pruebe con otro");
                 }
-
-                foreach(var error in resultadoCreate.Errors)
+                else
                 {
-                    ModelState.AddModelError(String.Empty, error.Description);
-                }
+                     
+                    var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, viewmodel.Password);
+
+                    if (resultadoCreate.Succeeded)
+                    {
+                        var resultadoAddRole = await _userManager.AddToRoleAsync(clienteNuevo, Configs.ClienteRolName);
+
+                        if (resultadoAddRole.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(clienteNuevo, false);
+                            return RedirectToAction("Edit", "Clientes", new { id = clienteNuevo.Id });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.ClienteRolName}");
+                        }
+                    }
+                    foreach (var error in resultadoCreate.Errors)
+                    {
+                        ModelState.AddModelError(String.Empty, error.Description);
+                    }
+
+                }                
             }
 
             return View(viewmodel);
