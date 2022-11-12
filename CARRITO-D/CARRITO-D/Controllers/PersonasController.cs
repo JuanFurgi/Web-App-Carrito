@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Empleado")]
     public class PersonasController : Controller
     {
         private readonly CarritoContext _context;
@@ -45,7 +47,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Personas/Create
-        [Authorize(Roles ="Empleado")]
+        
         public IActionResult Create()
         {
             return View();
@@ -56,7 +58,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Empleado")]
+        
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,UserName,Email,Direccion,FechaAlta,Telefono")] Persona persona)
         {
             if (ModelState.IsValid)
@@ -69,7 +71,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Personas/Edit/5
-        [Authorize(Roles = "Empleado")]
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Personas == null)
@@ -90,7 +92,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Empleado")]
+        
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,UserName,Email,Direccion,FechaAlta,Telefono")] Persona persona)
         {
             if (id != persona.Id)
@@ -137,7 +139,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Personas/Delete/5
-        [Authorize(Roles = "Empleado")]
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Personas == null)
@@ -157,7 +159,7 @@ namespace CARRITO_D.Controllers
 
         // POST: Personas/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Empleado")]
+        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

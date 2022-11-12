@@ -9,9 +9,12 @@ using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Identity;
 using CARRITO_D.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Empleado")]
     public class EmpleadosController : Controller
     {
         private readonly CarritoContext _context;
