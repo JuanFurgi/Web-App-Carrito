@@ -1,4 +1,5 @@
 ﻿using CARRITO_D.Data;
+using CARRITO_D.Helpers;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,15 @@ namespace CARRITO_D.Controllers
         private readonly UserManager<Persona> _userManager;
         private readonly RoleManager<Rol> _roleManager;
         private readonly CarritoContext _context;
-
+        private readonly SignInManager<Persona> _signInManager;
         private readonly List<string> roles = new List<string>() {"Cliente", "Empleado"};
 
-        public PreCarga(UserManager<Persona> userManager, RoleManager<Rol> roleManager, CarritoContext context)
+        public PreCarga(UserManager<Persona> userManager, RoleManager<Rol> roleManager, CarritoContext context, SignInManager<Persona> signInManager)
         {
             this._userManager = userManager;
             this._roleManager = roleManager;
             this._context = context;
+            this._signInManager = signInManager;
         }
 
 
@@ -84,7 +86,7 @@ namespace CARRITO_D.Controllers
                 {
                     Nombre = "Pantalon",
                     CategoriaId = encontrarCategoria("Pantalones").CategoriaId,
-                    Activo = true,
+                    Activo = false,
                     PrecioVigente = 5000,
                     Descripcion = "Pantalon de jean marca Klouth"
                 };
@@ -118,7 +120,7 @@ namespace CARRITO_D.Controllers
 
         private async Task CrearClientes()
         {
-            await _userManager.CreateAsync(new
+            Cliente clienteNuevo = new
                 Cliente()
             {
                 UserName = "Cliente1",
@@ -129,13 +131,20 @@ namespace CARRITO_D.Controllers
                 Direccion = "Vicente Lopez 789",
                 Telefono = 1123456789, //esto es igual a PhoneNumber? hace el override?
                 FechaAlta = DateTime.Now
+            };
+
+            var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);
+
+            if (resultadoCreate.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(clienteNuevo, Configs.ClienteRolName);
+
             }
-            );
         }
 
         private async Task CrearEmpleados()
         {
-            await _userManager.CreateAsync(new
+            Empleado empleadoNuevo = new
                 Empleado()
             {
                 UserName = "Empleado1",
@@ -146,9 +155,15 @@ namespace CARRITO_D.Controllers
                 Telefono = 1109876543,
                 Legajo = 109234,
                 FechaAlta = DateTime.Now,
-                
+
+            };
+
+            var resultadoCreate = await _userManager.CreateAsync(empleadoNuevo, Configs.Password);
+
+            if (resultadoCreate.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(empleadoNuevo, Configs.EmpleadoRolName);
             }
-            );
         }
 
 

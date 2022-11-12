@@ -19,6 +19,7 @@ namespace CARRITO_D.Models
         public float PrecioVigente { get; set; }  //usa 32 bits de espacio en vez de los 64 de double. Optimizacion de memoria
 
         //LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA
+        [Required(ErrorMessage =ErrorMsg.MsgReq)]
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
 

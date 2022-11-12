@@ -19,10 +19,18 @@ namespace CARRITO_D.Models
             }
             set
             {
-                foreach(CarritoItem item in CarritoItems)
+                if (CarritoItems.Count > 0)
                 {
-                    Subtotal += item.Subtotal;
+                    foreach (CarritoItem item in CarritoItems)
+                    {
+                        Subtotal += item.Subtotal;
+                    }
                 }
+                else
+                {
+                    Subtotal = 0;
+                }
+                
             }
         }
 
