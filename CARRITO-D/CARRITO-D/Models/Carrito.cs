@@ -11,7 +11,20 @@ namespace CARRITO_D.Models
 
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
         [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
-        public float Subtotal { get; set; }
+        public float Subtotal
+        {
+            get
+            {
+                return Subtotal;
+            }
+            set
+            {
+                foreach(CarritoItem item in CarritoItems)
+                {
+                    Subtotal += item.Subtotal;
+                }
+            }
+        }
 
         public List<CarritoItem> CarritoItems { get; set; }
         public int ClienteId { get; set; }
