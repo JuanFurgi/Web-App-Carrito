@@ -21,10 +21,11 @@ namespace CARRITO_D.Models
                 Total = this.Carrito.Subtotal;
             }
         }
-
+        [Required(ErrorMessage = ErrorMsg.MsgReq)]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
+        [Required(ErrorMessage = ErrorMsg.MsgReq)]
         public int CarritoId { get; set; }
         public Carrito Carrito { get; set; }
     }

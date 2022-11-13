@@ -19,7 +19,7 @@ namespace CARRITO_D.Models
             }
             set
             {
-                if (CarritoItems.Count > 0)
+                if (CarritoItems.Count() > 0)
                 {
                     foreach (CarritoItem item in CarritoItems)
                     {
@@ -35,6 +35,8 @@ namespace CARRITO_D.Models
         }
 
         public List<CarritoItem> CarritoItems { get; set; }
+
+        [Required(ErrorMessage =ErrorMsg.MsgReq)]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
     }
