@@ -5,6 +5,15 @@ namespace CARRITO_D.Models
 {
     public class Carrito {
 
+        public Carrito() { }
+
+        /*public Carrito(Boolean activo, int clienteId)
+        /{
+            this.Activo = activo;
+            this.Subtotal = 0;
+            this.ClienteId = clienteId;
+        }*/
+
         public int CarritoId { get; set; }
 
         public Boolean Activo { get; set; }
