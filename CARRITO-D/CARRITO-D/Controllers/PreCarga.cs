@@ -27,15 +27,32 @@ namespace CARRITO_D.Controllers
         public IActionResult Seed()
         {
             CrearRoles().Wait();
- Carrito            CrearCarrito().Wait();
+            /*CrearCarrito().Wait();*/
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
             CrearProductos();
+            CrearSucursales();
 
             return RedirectToAction("Index", "Home", new { mensaje="Proceso de Seed Finalizado"});
         }
 
+        private void CrearSucursales()
+        {
+            Sucursal sucursal = new Sucursal()
+            {
+                Direccion = "Av. Libertador 1900",
+                Nombre = "Klouth Olivos",
+                Telefono = 1147903409,
+                Email = "klouth.olivos@klouth.com.ar",
+                StockItems = new List<StockItem>()
+            };
+
+            _context.Sucursales.Add(sucursal);
+            _context.SaveChanges();
+        }
+
+        /*
         private async Task CrearCarrito()
         {
             Carrito carrito = new Carrito()
@@ -48,6 +65,7 @@ namespace CARRITO_D.Controllers
             _context.Carritos.Add(carrito);
             _context.SaveChanges();
         }
+        */
 
         private async Task CrearCategoria()
         {
@@ -146,12 +164,12 @@ namespace CARRITO_D.Controllers
                 Direccion = "Vicente Lopez 789",
                 Telefono = 1123456789, //esto es igual a PhoneNumber? hace el override?
                 FechaAlta = DateTime.Now,
-                Carritos = new List<Carrito>(),
+                //Carritos = new List<Carrito>(),
                 
                
             };
 
-            clienteNuevo.Carritos.Add(_context.Carritos.First());
+            //clienteNuevo.Carritos.Add(_context.Carritos.First());
 
             var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);
 

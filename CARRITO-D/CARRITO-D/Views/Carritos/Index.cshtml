@@ -37,9 +37,13 @@
                 @Html.DisplayFor(modelItem => item.Cliente.Apellido)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CarritoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CarritoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CarritoId">Delete</a>
+                @if(User.IsInRole("Empleado"))
+                {
+                     <a asp-action="Edit" asp-route-id="@item.CarritoId">Edit</a>
+                     <a asp-action="Delete" asp-route-id="@item.CarritoId">Delete</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.CarritoId">Details</a>
+                
             </td>
         </tr>
 }

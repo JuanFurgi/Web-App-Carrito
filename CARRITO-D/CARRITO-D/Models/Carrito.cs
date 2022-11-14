@@ -8,7 +8,7 @@ namespace CARRITO_D.Models
         public Carrito() { }
 
         /*public Carrito(Boolean activo, int clienteId)
-        /{
+        {
             this.Activo = activo;
             this.Subtotal = 0;
             this.ClienteId = clienteId;
