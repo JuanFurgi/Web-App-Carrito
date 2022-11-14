@@ -27,12 +27,26 @@ namespace CARRITO_D.Controllers
         public IActionResult Seed()
         {
             CrearRoles().Wait();
+ Carrito            CrearCarrito().Wait();
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
             CrearProductos();
 
             return RedirectToAction("Index", "Home", new { mensaje="Proceso de Seed Finalizado"});
+        }
+
+        private async Task CrearCarrito()
+        {
+            Carrito carrito = new Carrito()
+            {
+                Activo = true,
+                Subtotal = 0,
+                CarritoItems = new List<CarritoItem>(),
+                ClienteId = _context.Clientes.First().Id
+            };
+            _context.Carritos.Add(carrito);
+            _context.SaveChanges();
         }
 
         private async Task CrearCategoria()
@@ -120,6 +134,7 @@ namespace CARRITO_D.Controllers
 
         private async Task CrearClientes()
         {
+
             Cliente clienteNuevo = new
                 Cliente()
             {
@@ -130,8 +145,13 @@ namespace CARRITO_D.Controllers
                 DNI = 45233213,
                 Direccion = "Vicente Lopez 789",
                 Telefono = 1123456789, //esto es igual a PhoneNumber? hace el override?
-                FechaAlta = DateTime.Now
+                FechaAlta = DateTime.Now,
+                Carritos = new List<Carrito>(),
+                
+               
             };
+
+            clienteNuevo.Carritos.Add(_context.Carritos.First());
 
             var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);
 
