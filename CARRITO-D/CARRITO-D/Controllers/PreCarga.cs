@@ -27,7 +27,7 @@ namespace CARRITO_D.Controllers
         public IActionResult Seed()
         {
             CrearRoles().Wait();
-            /*CrearCarrito().Wait();*/
+            //CrearCarrito().Wait();
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
@@ -52,42 +52,40 @@ namespace CARRITO_D.Controllers
             _context.SaveChanges();
         }
 
-        /*
-        private async Task CrearCarrito()
+        
+        /*private async Task CrearCarrito()
         {
-            Carrito carrito = new Carrito()
-            {
-                Activo = true,
-                Subtotal = 0,
-                CarritoItems = new List<CarritoItem>(),
-                ClienteId = _context.Clientes.First().Id
-            };
+            Carrito carrito = new Carrito();
             _context.Carritos.Add(carrito);
             _context.SaveChanges();
-        }
-        */
+        }*/
+        
 
         private async Task CrearCategoria()
         {
             Categoria categoria1 = new Categoria()
             {
                 Nombre = "Camisetas",
-                Descripcion = "Es una prenda de ropa interior de abrigo por lo general de mangas cortas, cuello redondo o en forma de 'V'"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Es una prenda de ropa interior de abrigo por lo general de mangas cortas, cuello redondo o en forma de 'V'",
+                Productos = new List<Producto>()
             };
             Categoria categoria2 = new Categoria()
             {
                 Nombre = "Pantalones",
-                Descripcion = "Prenda de vestir que se ajusta a la cintura y llega generalmente hasta el pie , cubriendo cada pierna separadamente"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Prenda de vestir que se ajusta a la cintura y llega generalmente hasta el pie , cubriendo cada pierna separadamente",
+                Productos = new List<Producto>()
             };
             Categoria categoria3 = new Categoria()
             {
                 Nombre = "Shorts",
-                Descripcion = "pantalones cortos de toda la vida que se reinventan año tras año para adaptarse a las nuevas tendencias que dicta la industria de la moda"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "pantalones cortos de toda la vida que se reinventan año tras año para adaptarse a las nuevas tendencias que dicta la industria de la moda",
+                Productos = new List<Producto>()
             };
             Categoria categoria4 = new Categoria()
             {
                 Nombre = "Buzos",
-                Descripcion = "Prenda deportiva que cubre el torso, generalmente con capucha"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Prenda deportiva que cubre el torso, generalmente con capucha",
+                Productos = new List<Producto>()
             };
             _context.Categorias.Add(categoria1);
             _context.Categorias.Add(categoria2);
@@ -101,7 +99,11 @@ namespace CARRITO_D.Controllers
         {
             return _context.Categorias.First(c => c.Nombre == nombreCategoria);
         }
-
+        /*private void agregarProductoACategoria(Producto prod)
+        {
+            _context.Categorias.Include("Productos").First(c => c.CategoriaId == prod.CategoriaId).Productos.Add(prod);
+            _context.SaveChanges();
+        }*/
         private void CrearProductos()
         {
             if (_context.Categorias.Any())
@@ -109,11 +111,12 @@ namespace CARRITO_D.Controllers
                 Producto producto1 = new Producto()
                 {
                     Nombre = "Camiseta",
-                    CategoriaId = _context.Categorias.First().CategoriaId,
+                    CategoriaId = encontrarCategoria("Camisetas").CategoriaId,
                     Activo = true,
                     PrecioVigente = 8000,
                     Descripcion = "Camiseta Beige con logo de Klouth en el centro, minimalista"
                 };
+                
                 Producto producto2 = new Producto()
                 {
                     Nombre = "Pantalon",
@@ -138,6 +141,12 @@ namespace CARRITO_D.Controllers
                     PrecioVigente = 10000,
                     Descripcion = "Buzo negro con logo de Klouth, con capucha y detalles dorados",
                 };
+                /*
+                agregarProductoACategoria(producto1);
+                agregarProductoACategoria(producto2);
+                agregarProductoACategoria(producto3);
+                agregarProductoACategoria(producto4);
+                */
                 _context.Productos.Add(producto1);
                 _context.Productos.Add(producto2);
                 _context.Productos.Add(producto3);

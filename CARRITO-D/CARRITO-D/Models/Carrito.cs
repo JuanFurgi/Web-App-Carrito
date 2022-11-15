@@ -5,14 +5,12 @@ namespace CARRITO_D.Models
 {
     public class Carrito {
 
-        public Carrito() { }
-
-        /*public Carrito(Boolean activo, int clienteId)
+        public Carrito()
         {
-            this.Activo = activo;
+            this.Activo = true;
             this.Subtotal = 0;
-            this.ClienteId = clienteId;
-        }*/
+            this.CarritoItems = new List<CarritoItem>();
+        }
 
         public int CarritoId { get; set; }
 
@@ -28,18 +26,7 @@ namespace CARRITO_D.Models
             }
             set
             {
-                if (CarritoItems.Count() > 0)
-                {
-                    foreach (CarritoItem item in CarritoItems)
-                    {
-                        Subtotal += item.Subtotal;
-                    }
-                }
-                else
-                {
-                    Subtotal = 0;
-                }
-                
+                Subtotal = value;
             }
         }
 
