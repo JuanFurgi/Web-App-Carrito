@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<CARRITO_D.Models.Producto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos";
 }
 
 <h1>Productos Klouth</h1>
 
 @if(User.IsInRole("Empleado")){
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create">Crear Nuevo</a>
     </p>
 }
 
@@ -57,11 +57,11 @@
             </td>
             <td>
                 @if(User.IsInRole("Empleado")){
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                 }
                 
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Mas informacion</a> 
                 
             </td>
         </tr>
