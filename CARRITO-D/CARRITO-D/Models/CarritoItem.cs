@@ -8,17 +8,13 @@ namespace CARRITO_D.Models
     public class CarritoItem {
 
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
-        [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)]
+        
         public float Subtotal 
         {
             get
             {
-                return Subtotal;
-            }
-            set
-            {
-                Subtotal = this.Cantidad * this.ValorUnitario;
-            }
+                return ValorUnitario * Cantidad;
+            }        
         }
 
         [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PORQUE NO SABEMOS CUAL SERIA EL PRECIO MAX AL QUE UN PRODUCTO PODRIA LLEGAR A VALER

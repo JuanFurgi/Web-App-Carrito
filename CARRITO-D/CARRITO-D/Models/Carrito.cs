@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CARRITO_D.Helpers;
+using NuGet.Configuration;
 
 namespace CARRITO_D.Models
 {
@@ -8,7 +9,7 @@ namespace CARRITO_D.Models
         public Carrito()
         {
             this.Activo = true;
-            this.Subtotal = 0;
+       
             this.CarritoItems = new List<CarritoItem>();
         }
 
@@ -17,17 +18,23 @@ namespace CARRITO_D.Models
         public Boolean Activo { get; set; }
 
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
-        [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
+        
         public float Subtotal
         {
             get
             {
-                return Subtotal;
+                float resultado = 0;
+                if (CarritoItems != null)
+                {
+                    
+                    foreach(var item in CarritoItems)
+                    {
+                        resultado += item.Subtotal;
+                    }
+                }
+                return resultado;
             }
-            set
-            {
-                Subtotal = value;
-            }
+
         }
 
         public List<CarritoItem> CarritoItems { get; set; }
