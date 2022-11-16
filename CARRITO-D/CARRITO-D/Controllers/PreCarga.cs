@@ -133,7 +133,7 @@ namespace CARRITO_D.Controllers
                 FechaAlta = DateTime.Now
             };
 
-            var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);
+            var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);   
 
             if (resultadoCreate.Succeeded)
             {

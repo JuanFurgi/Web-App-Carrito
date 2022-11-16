@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<CARRITO_D.Models.Sucursal>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sucursales";
 }
 
-<h1>Index</h1>
+<h1>Sucursales</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.SucursalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SucursalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SucursalId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.SucursalId">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.SucursalId">Mas Informacion</a> |
+                <a asp-action="Delete" asp-route-id="@item.SucursalId">Borrar</a>
             </td>
         </tr>
 }
