@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CARRITO_D.Models.Categoria>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorias";
 }
 
-<h1>Index</h1>
+<h1>Categorias</h1>
 @if(User.IsInRole("Empleado")){
     <p>
         <a asp-action="Create">Create New</a>
@@ -30,10 +30,10 @@
             
             <td>
                 @if(User.IsInRole("Empleado")){
-                    <a asp-action="Edit" asp-route-id="@item.CategoriaId">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.CategoriaId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.CategoriaId">Eliminar</a>
                 } 
-                <a asp-action="Details" asp-route-id="@item.CategoriaId">Details</a>
+                <a asp-action="Details" asp-route-id="@item.CategoriaId">Mas Informacion</a>
                 
             </td>
         </tr>
