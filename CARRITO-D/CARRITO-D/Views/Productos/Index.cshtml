@@ -37,7 +37,11 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Activo)
+                @if(item.Activo){
+                    @Html.DisplayFor(modelItem => item.Activo)
+                }else{
+                    <p style="color:#6c757d">Pausado</p>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)

@@ -5,19 +5,19 @@
 }
 
 <h1>Categorias</h1>
+@if(User.IsInRole("Empleado")){
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Crear Nuevo</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -27,13 +27,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoriaId">Mas Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoriaId">Borrar</a>
+                @if(User.IsInRole("Empleado")){
+                    <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.CategoriaId">Eliminar</a>
+                } 
+                <a asp-action="Details" asp-route-id="@item.CategoriaId">Mas Informacion</a>
+                
             </td>
         </tr>
 }

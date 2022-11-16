@@ -27,35 +27,65 @@ namespace CARRITO_D.Controllers
         public IActionResult Seed()
         {
             CrearRoles().Wait();
+            //CrearCarrito().Wait();
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
             CrearProductos();
+            CrearSucursales();
 
             return RedirectToAction("Index", "Home", new { mensaje="Proceso de Seed Finalizado"});
         }
+
+        private void CrearSucursales()
+        {
+            Sucursal sucursal = new Sucursal()
+            {
+                Direccion = "Av. Libertador 1900",
+                Nombre = "Klouth Olivos",
+                Telefono = 1147903409,
+                Email = "klouth.olivos@klouth.com.ar",
+                StockItems = new List<StockItem>()
+            };
+
+            _context.Sucursales.Add(sucursal);
+            _context.SaveChanges();
+        }
+
+        
+        /*private async Task CrearCarrito()
+        {
+            Carrito carrito = new Carrito();
+            _context.Carritos.Add(carrito);
+            _context.SaveChanges();
+        }*/
+        
 
         private async Task CrearCategoria()
         {
             Categoria categoria1 = new Categoria()
             {
                 Nombre = "Camisetas",
-                Descripcion = "Es una prenda de ropa interior de abrigo por lo general de mangas cortas, cuello redondo o en forma de 'V'"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Es una prenda de ropa interior de abrigo por lo general de mangas cortas, cuello redondo o en forma de 'V'",
+                Productos = new List<Producto>()
             };
             Categoria categoria2 = new Categoria()
             {
                 Nombre = "Pantalones",
-                Descripcion = "Prenda de vestir que se ajusta a la cintura y llega generalmente hasta el pie , cubriendo cada pierna separadamente"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Prenda de vestir que se ajusta a la cintura y llega generalmente hasta el pie , cubriendo cada pierna separadamente",
+                Productos = new List<Producto>()
             };
             Categoria categoria3 = new Categoria()
             {
                 Nombre = "Shorts",
-                Descripcion = "pantalones cortos de toda la vida que se reinventan año tras año para adaptarse a las nuevas tendencias que dicta la industria de la moda"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "pantalones cortos de toda la vida que se reinventan año tras año para adaptarse a las nuevas tendencias que dicta la industria de la moda",
+                Productos = new List<Producto>()
             };
             Categoria categoria4 = new Categoria()
             {
                 Nombre = "Buzos",
-                Descripcion = "Prenda deportiva que cubre el torso, generalmente con capucha"// Camisetas y tmb pantalones, shorts, buzos
+                Descripcion = "Prenda deportiva que cubre el torso, generalmente con capucha",
+                Productos = new List<Producto>()
             };
             _context.Categorias.Add(categoria1);
             _context.Categorias.Add(categoria2);
@@ -69,7 +99,11 @@ namespace CARRITO_D.Controllers
         {
             return _context.Categorias.First(c => c.Nombre == nombreCategoria);
         }
-
+        /*private void agregarProductoACategoria(Producto prod)
+        {
+            _context.Categorias.Include("Productos").First(c => c.CategoriaId == prod.CategoriaId).Productos.Add(prod);
+            _context.SaveChanges();
+        }*/
         private void CrearProductos()
         {
             if (_context.Categorias.Any())
@@ -77,11 +111,12 @@ namespace CARRITO_D.Controllers
                 Producto producto1 = new Producto()
                 {
                     Nombre = "Camiseta",
-                    CategoriaId = _context.Categorias.First().CategoriaId,
+                    CategoriaId = encontrarCategoria("Camisetas").CategoriaId,
                     Activo = true,
                     PrecioVigente = 8000,
                     Descripcion = "Camiseta Beige con logo de Klouth en el centro, minimalista"
                 };
+                
                 Producto producto2 = new Producto()
                 {
                     Nombre = "Pantalon",
@@ -106,6 +141,12 @@ namespace CARRITO_D.Controllers
                     PrecioVigente = 10000,
                     Descripcion = "Buzo negro con logo de Klouth, con capucha y detalles dorados",
                 };
+                /*
+                agregarProductoACategoria(producto1);
+                agregarProductoACategoria(producto2);
+                agregarProductoACategoria(producto3);
+                agregarProductoACategoria(producto4);
+                */
                 _context.Productos.Add(producto1);
                 _context.Productos.Add(producto2);
                 _context.Productos.Add(producto3);
@@ -120,6 +161,7 @@ namespace CARRITO_D.Controllers
 
         private async Task CrearClientes()
         {
+
             Cliente clienteNuevo = new
                 Cliente()
             {
@@ -130,10 +172,15 @@ namespace CARRITO_D.Controllers
                 DNI = 45233213,
                 Direccion = "Vicente Lopez 789",
                 Telefono = 1123456789, //esto es igual a PhoneNumber? hace el override?
-                FechaAlta = DateTime.Now
+                FechaAlta = DateTime.Now,
+                //Carritos = new List<Carrito>(),
+                
+               
             };
 
-            var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);   
+            //clienteNuevo.Carritos.Add(_context.Carritos.First());
+
+            var resultadoCreate = await _userManager.CreateAsync(clienteNuevo, Configs.Password);
 
             if (resultadoCreate.Succeeded)
             {

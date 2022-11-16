@@ -46,6 +46,11 @@ namespace CARRITO_D.Controllers
             return View(sucursal);
         }
 
+        private bool NombreUnico(string nombreSucursal)
+        {
+            return (_context.Sucursales.FirstOrDefault(c => c.Nombre == nombreSucursal) == null);
+        }
+
         // GET: Sucursales/Create
         [Authorize(Roles = "Empleado")]
         public IActionResult Create()
@@ -63,9 +68,16 @@ namespace CARRITO_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sucursal);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if(NombreUnico(sucursal.Nombre))
+                {
+                    _context.Add(sucursal);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Nombre", "Ya hay una sucursal con ese Nombre,\nIngrese otro");
+                }   
             }
             return View(sucursal);
         }
@@ -102,23 +114,31 @@ namespace CARRITO_D.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (NombreUnico(sucursal.Nombre))
                 {
-                    _context.Update(sucursal);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        _context.Update(sucursal);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!SucursalExists(sucursal.SucursalId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!SucursalExists(sucursal.SucursalId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("Nombre", "Ya hay una sucursal con ese Nombre,\nIngrese otro");
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             return View(sucursal);
         }

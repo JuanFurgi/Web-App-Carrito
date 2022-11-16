@@ -6,9 +6,12 @@
 
 <h1>Sucursales</h1>
 
-<p>
-    <a asp-action="Create">Crear Nuevo</a>
-</p>
+@if(User.IsInRole("Empleados")){
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -18,12 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -36,16 +34,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SucursalId">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.SucursalId">Mas Informacion</a> |
-                <a asp-action="Delete" asp-route-id="@item.SucursalId">Borrar</a>
+                @if(User.IsInRole("Empleado"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.SucursalId">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.SucursalId">Eliminar</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.SucursalId">Mas informacion</a>
+                
             </td>
         </tr>
 }

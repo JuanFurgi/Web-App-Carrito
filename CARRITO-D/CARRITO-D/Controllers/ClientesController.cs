@@ -167,7 +167,7 @@ namespace CARRITO_D.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(cliente);
         }

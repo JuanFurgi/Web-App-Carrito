@@ -10,7 +10,7 @@ namespace CARRITO_D.Models
         [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = ErrorMsg.MsgRegExpression)]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public List<StockItem> Productos { get; set; }
+        public List<Producto> Productos { get; set; }
 
 
     }
