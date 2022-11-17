@@ -38,6 +38,7 @@ namespace CARRITO_D.Controllers
 
             var carrito = await _context.Carritos
                 .Include(c => c.Cliente)
+                .Include( c=> c.CarritoItems)
                 .FirstOrDefaultAsync(m => m.CarritoId == id);
             if (carrito == null)
             {
@@ -48,16 +49,16 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Carritos/Create
-        public IActionResult Create()
+       /* public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
             return View();
-        }
+        }*/
 
         // POST: Carritos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CarritoId,Activo,Subtotal,ClienteId")] Carrito carrito)
         {
@@ -69,7 +70,7 @@ namespace CARRITO_D.Controllers
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", carrito.ClienteId);
             return View(carrito);
-        }
+        }*/
 
         // GET: Carritos/Edit/5
         public async Task<IActionResult> Edit(int? id)

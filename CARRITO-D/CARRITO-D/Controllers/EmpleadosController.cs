@@ -125,7 +125,7 @@ namespace CARRITO_D.Controllers
             {
                 try
                 {
-                    _context.Update(empleado);
+                    _context.Empleados.Update(empleado);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -139,7 +139,7 @@ namespace CARRITO_D.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(empleado);
         }

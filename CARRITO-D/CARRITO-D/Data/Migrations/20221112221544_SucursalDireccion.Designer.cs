@@ -4,6 +4,7 @@ using CARRITO_D.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CARRITO_D.Migrations
 {
     [DbContext(typeof(CarritoContext))]
-    partial class CarritoContextModelSnapshot : ModelSnapshot
+    [Migration("20221112221544_SucursalDireccion")]
+    partial class SucursalDireccion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Carritos", (string)null);
+                    b.ToTable("Carritos");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.CarritoItem", b =>
@@ -67,7 +69,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("CarritosItems", (string)null);
+                    b.ToTable("CarritosItems");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Categoria", b =>
@@ -86,7 +88,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("Categorias", (string)null);
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Compra", b =>
@@ -112,7 +114,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Compras", (string)null);
+                    b.ToTable("Compras");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Producto", b =>
@@ -143,7 +145,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Productos", (string)null);
+                    b.ToTable("Productos");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.StockItem", b =>
@@ -166,7 +168,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("StocksItems", (string)null);
+                    b.ToTable("StocksItems");
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Sucursal", b =>
@@ -193,7 +195,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasKey("SucursalId");
 
-                    b.ToTable("Sucursales", (string)null);
+                    b.ToTable("Sucursales");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>

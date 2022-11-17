@@ -99,7 +99,7 @@ namespace CARRITO_D.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Empleado")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Activo,Nombre,Descripcion,PrecioVigente,CategoriaId")] Producto producto)
         {
             if (id != producto.Id)
             {
