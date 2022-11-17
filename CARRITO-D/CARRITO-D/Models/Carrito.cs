@@ -6,11 +6,12 @@ namespace CARRITO_D.Models
 {
     public class Carrito {
 
-        public Carrito()
+        public Carrito() { }
+        public Carrito(int clienteId)
         {
             this.Activo = true;
-       
             this.CarritoItems = new List<CarritoItem>();
+            this.ClienteId = clienteId;
         }
 
         public int CarritoId { get; set; }
@@ -18,7 +19,6 @@ namespace CARRITO_D.Models
         public Boolean Activo { get; set; }
 
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
-        
         public float Subtotal
         {
             get

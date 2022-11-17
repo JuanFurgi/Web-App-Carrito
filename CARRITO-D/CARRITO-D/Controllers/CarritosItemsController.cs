@@ -172,5 +172,54 @@ namespace CARRITO_D.Controllers
         {
           return _context.CarritosItems.Any(e => e.CarritoId == id);
         }
+
+
+        public async Task<IActionResult> Sumar(int? id)
+        {
+            if (id == null || _context.CarritosItems == null)
+            {
+                return NotFound();
+            }
+
+            var carritoItem = await _context.CarritosItems
+                .Include(c => c.Carrito)
+                .Include(c => c.Producto)
+                .FirstOrDefaultAsync(m => m.CarritoId == id);
+            if (carritoItem == null)
+            {
+                return NotFound();
+            }
+
+            carritoItem.Cantidad++;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restar(int? id)
+        {
+            if (id == null || _context.CarritosItems == null)
+            {
+                return NotFound();
+            }
+
+            var carritoItem = await _context.CarritosItems
+                .Include(c => c.Carrito)
+                .Include(c => c.Producto)
+                .FirstOrDefaultAsync(m => m.CarritoId == id);
+            if (carritoItem == null)
+            {
+                return NotFound();
+            }
+
+            if(carritoItem.Cantidad <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "No se pueden restar mas productos");
+                return RedirectToAction(nameof(Index));
+            }
+
+            carritoItem.Cantidad--;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

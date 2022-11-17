@@ -44,6 +44,7 @@ namespace CARRITO_D.Controllers
                     Email = viewmodel.Email,
                     UserName = viewmodel.UserName,
                 };
+                Carrito carritoNuevo = new Carrito(clienteNuevo.Id);
 
                 
                 if(_context.Personas.Any(c => c.NormalizedEmail == viewmodel.Email.ToUpper()))
@@ -57,10 +58,15 @@ namespace CARRITO_D.Controllers
 
                     if (resultadoCreate.Succeeded)
                     {
+                        
+
                         var resultadoAddRole = await _userManager.AddToRoleAsync(clienteNuevo, Configs.ClienteRolName);
 
                         if (resultadoAddRole.Succeeded)
                         {
+                            await _context.Carritos.AddAsync(carritoNuevo);
+                            await _context.SaveChangesAsync();
+
                             await _signInManager.SignInAsync(clienteNuevo, false);
                             return RedirectToAction("Edit", "Clientes", new { id = clienteNuevo.Id });
                         }

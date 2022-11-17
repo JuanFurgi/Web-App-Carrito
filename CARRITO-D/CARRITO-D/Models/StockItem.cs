@@ -6,15 +6,16 @@ namespace CARRITO_D.Models
 {
     public class StockItem
     {
+        public int Id { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
         public int Cantidad { get; set; }
 
-        [Key, ForeignKey("Sucursal")]
+        [ForeignKey("Sucursal")]
         [Display(Name =Alias.Sucursal)]
         public int SucursalId { get; set; }
 
-        [Key, ForeignKey("Producto")]
+        [ForeignKey("Producto")]
         [Display(Name =Alias.Producto)]
         public int ProductoId { get; set; }
 
