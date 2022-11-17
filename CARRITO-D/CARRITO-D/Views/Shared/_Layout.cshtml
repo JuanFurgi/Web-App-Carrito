@@ -28,10 +28,6 @@
                         @if(signInManager.IsSignedIn(User))
                         {
                             //Mostrar cosas que un user con sesion iniciada ve
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Carritos" asp-action="Details">Carrito</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
                             </li>
@@ -56,12 +52,17 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="StocksItems" asp-action="Index">StocksItems</a>
                                 </li>
                             }
+                            if(User.IsInRole("Cliente")){
+                                <li class="nav-item navbar-carrito">
+                                    <a class="nav-link navbar-carrito" asp-area="" asp-controller="Carritos" asp-action="Details"></a>
+                                </li>
+                            }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="EditarMiPerfil">Editar Mi Perfil</a>
+                                <a class="nav-link navbar-usuario" asp-area="" asp-controller="Account" asp-action="EditarMiPerfil"></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="CerrarSesion">Cerrar Sesion</a>
+                                <a class="nav-link text-dark navbar-logout" asp-area="" asp-controller="Account" asp-action="CerrarSesion"></a>
                             </li>
 
                         }
