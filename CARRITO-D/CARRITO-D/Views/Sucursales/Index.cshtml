@@ -6,7 +6,7 @@
 
 <h1>Sucursales</h1>
 
-@if(User.IsInRole("Empleados")){
+@if(User.IsInRole("Empleado")){
     <p>
         <a asp-action="Create">Create New</a>
     </p>
@@ -40,6 +40,7 @@
                 {
                     <a asp-action="Edit" asp-route-id="@item.SucursalId">Editar</a>
                     <a asp-action="Delete" asp-route-id="@item.SucursalId">Eliminar</a>
+                    <a asp-action="SumarProducto" asp-route-id="@item.SucursalId">Sumar</a>
                 }
                 <a asp-action="Details" asp-route-id="@item.SucursalId">Mas informacion</a>
                 

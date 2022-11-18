@@ -53,7 +53,7 @@ namespace CARRITO_D.Controllers
         [Authorize(Roles = "Empleado")]
         public IActionResult Create()
         {
-            ViewData["Id"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId");
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre");
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace CARRITO_D.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Empleado")]
-        public async Task<IActionResult> Create([Bind("Id,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
+        public async Task<IActionResult> Create([Bind("Id,CategoriaId,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace CARRITO_D.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId", producto.Id);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre", producto.CategoriaId);
             return View(producto);
         }
 

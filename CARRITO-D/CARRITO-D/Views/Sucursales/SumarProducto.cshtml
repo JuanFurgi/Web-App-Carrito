@@ -1,0 +1,41 @@
+﻿@model CARRITO_D.Models.Sucursal
+
+@{
+    ViewData["Title"] = "Sumar";
+}
+
+<h1>Sumar Producto</h1>
+
+<h4>Sucursal</h4>
+
+<div>
+    <partial name="_SumarProducto" for="@Model" />
+</div>
+<!--
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Sumar Producto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SucursalId" />
+            <div class="form-group">
+                <label>Producto</label>
+                <select class="form-control" asp-items="ViewBag.ProductoId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+-->
+
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

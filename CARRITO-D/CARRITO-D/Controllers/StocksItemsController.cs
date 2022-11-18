@@ -52,8 +52,8 @@ namespace CARRITO_D.Controllers
         // GET: StocksItems/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id");
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "SucursalId");
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre");
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
             return View();
         }
 
@@ -64,14 +64,15 @@ namespace CARRITO_D.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Cantidad,SucursalId,ProductoId")] StockItem stockItem)
         {
+            //ERROR EN SAVE CHANGES PORQUE HAY MIGRACIONES CON LAS QUE NO SE AVANZARON POR ERRORES
             if (ModelState.IsValid)
             {
                 _context.Add(stockItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", stockItem.ProductoId);
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "SucursalId", stockItem.SucursalId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre", stockItem.SucursalId);
             return View(stockItem);
         }
 

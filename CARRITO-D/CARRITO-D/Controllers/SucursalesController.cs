@@ -185,5 +185,60 @@ namespace CARRITO_D.Controllers
         {
           return _context.Sucursales.Any(e => e.SucursalId == id);
         }
+
+
+        
+        // GET: Sucursales/Create
+        [Authorize(Roles = "Empleado")]
+        public async Task<IActionResult> SumarProducto(int? id)
+        {
+            if (id == null || _context.Sucursales == null)
+            {
+                return NotFound();
+            }
+
+            var sucursal = await _context.Sucursales.FindAsync(id);
+            if (sucursal == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Create", "StocksItems", id);
+        }
+
+        /*
+        // POST: Sucursales/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
+        public async Task<IActionResult> SumarProducto(int id, [Bind("Id,CategoriaId,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
+        {
+            
+
+            if (id != sucursal.SucursalId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+              
+                StockItem stockItem = new StockItem()
+                {
+                    Cantidad = 1,
+                    ProductoId = producto.Id,
+                    SucursalId = sucursal.SucursalId
+                };
+                sucursal.StockItems.Add(stockItem);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View(producto);
+        }
+        */
+        
     }
 }
