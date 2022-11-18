@@ -170,5 +170,25 @@ namespace CARRITO_D.Controllers
         {
           return _context.Categorias.Any(e => e.CategoriaId == id);
         }
+
+
+        // GET: Categorias/Details/5
+        public async Task<IActionResult> MostrarProductos(int? id)
+        {
+            if (id == null || _context.Categorias == null)
+            {
+                return NotFound();
+            }
+
+            var categoria = await _context.Categorias
+                .Include("Productos")
+                .FirstOrDefaultAsync(m => m.CategoriaId == id);
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoria);
+        }
     }
 }

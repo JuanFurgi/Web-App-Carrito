@@ -57,8 +57,8 @@
             </td>
             <td>
                 @if(User.IsInRole("Empleado")){
-                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a> <span>|</span>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
                 }
                 
                 <a asp-action="Details" asp-route-id="@item.Id">Mas informacion</a> 

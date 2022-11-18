@@ -25,13 +25,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                    <a asp-action="MostrarProductos" asp-route-id="@item.CategoriaId">@Html.DisplayFor(modelItem => item.Nombre)</a>
             </td>
             
             <td>
                 @if(User.IsInRole("Empleado")){
-                    <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.CategoriaId">Eliminar</a>
+                        <a asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a> <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.CategoriaId">Eliminar</a> <span>|</span>
                 } 
                 <a asp-action="Details" asp-route-id="@item.CategoriaId">Mas Informacion</a>
                 
