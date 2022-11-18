@@ -62,7 +62,7 @@ namespace CARRITO_D.Controllers
                         if (resultadoAddRole.Succeeded)
                         {
                             await _signInManager.SignInAsync(clienteNuevo, false);
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Edit", "Clientes", new { id = clienteNuevo.Id });
                         }
                         else
                         {
