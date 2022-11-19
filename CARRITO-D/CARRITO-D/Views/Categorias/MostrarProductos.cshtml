@@ -24,43 +24,40 @@
     <tbody>
         @foreach (var prod in Model.Productos.ToList())
         {
-            //@foreach(Producto prod in item.Productos.ToList()){
-                <tr>
-                    <td>
-                        @if (prod.Activo)
-                        {
-                            @Html.DisplayFor(modelItem => prod.Activo)
-                        }
-                        else
-                        {
-                            <p style="color:#6c757d">Pausado</p>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => prod.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => prod.Descripcion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => prod.PrecioVigente)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => prod.Categoria.Nombre)
-                    </td>
-                    <td>
-                        @if (User.IsInRole("Empleado"))
-                        {
-                            <a asp-action="Delete" asp-controller="Productos" asp-route-id="@prod.Id">Borrar</a> <span>|</span>
-                            <a asp-action="Edit" asp-controller="Productos" asp-route-id="@prod.Id">Editar</a> <span>|</span>
-                        }
+            <tr>
+                <td>
+                    @if (prod.Activo)
+                    {
+                        @Html.DisplayFor(modelItem => prod.Activo)
+                    }
+                    else
+                    {
+                        <p style="color:#6c757d">Pausado</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.PrecioVigente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Categoria.Nombre)
+                </td>
+                <td>
+                    @if (User.IsInRole("Empleado"))
+                    {
+                        <a asp-action="Delete" asp-controller="Productos" asp-route-id="@prod.Id">Borrar</a> <span>|</span>
+                        <a asp-action="Edit" asp-controller="Productos" asp-route-id="@prod.Id">Editar</a> <span>|</span>
+                    }
 
-                        <a asp-action="Details" asp-controller="Productos" asp-route-id="@prod.Id">Mas informacion</a>
+                    <a asp-action="Details" asp-controller="Productos" asp-route-id="@prod.Id">Mas informacion</a>
 
-                    </td>
-                </tr>
-            //}
-            
+                </td>
+            </tr>  
         }
     </tbody>
 </table>

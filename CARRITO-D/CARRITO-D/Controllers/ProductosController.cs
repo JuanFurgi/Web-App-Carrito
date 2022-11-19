@@ -173,5 +173,21 @@ namespace CARRITO_D.Controllers
         {
           return _context.Productos.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> SumarProducto(int? id)
+        {
+            if (id == null || _context.Productos == null)
+            {
+                return NotFound();
+            }
+
+            var producto = await _context.Productos.FirstAsync(p => p.Id == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Create", "CarritosItems", id);
+        }
     }
 }

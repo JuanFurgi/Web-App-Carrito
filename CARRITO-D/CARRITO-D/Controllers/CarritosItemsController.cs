@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CARRITO_D.Controllers
 {
@@ -15,10 +16,12 @@ namespace CARRITO_D.Controllers
     public class CarritosItemsController : Controller
     {
         private readonly CarritoContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public CarritosItemsController(CarritoContext context)
+        public CarritosItemsController(CarritoContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: CarritosItems
@@ -49,10 +52,18 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: CarritosItems/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["CarritoId"] = new SelectList(_context.Carritos, "CarritoId", "CarritoId");
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id");
+            
+            ViewData["CarritoId"] = new SelectList(_context.Carritos.Where(c => c.ClienteId == int.Parse(_userManager.GetUserId(User))), "CarritoId", "CarritoId");
+            if(id == null)
+            {
+                ViewData["ProductoNombre"] = new SelectList(_context.Productos, "Id", "Nombre");
+            }
+            else
+            {
+                ViewData["ProductoNombre"] = new SelectList(_context.Productos.Where(c => c.Id == id), "Id", "Nombre");
+            }
             return View();
         }
 
@@ -61,16 +72,24 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Subtotal,ValorUnitario,Cantidad,CarritoId,ProductoId")] CarritoItem carritoItem)
+        public async Task<IActionResult> Create([Bind("Id,ValorUnitario,Cantidad,CarritoId,ProductoId")] CarritoItem carritoItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(carritoItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.CarritosItems.Add(carritoItem);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError(string.Empty, $"Error: Producto ya está agregado al carrito");
+                }
+                
             }
-            ViewData["CarritoId"] = new SelectList(_context.Carritos, "CarritoId", "CarritoId", carritoItem.CarritoId);
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", carritoItem.ProductoId);
+            ViewData["CarritoId"] = new SelectList(_context.Carritos.Where(c => c.ClienteId == int.Parse(_userManager.GetUserId(User))), "CarritoId", "CarritoId");
+            ViewData["ProductoNombre"] = new SelectList(_context.Productos.Where(c => c.Id == carritoItem.ProductoId), "Id", "Nombre");
             return View(carritoItem);
         }
 
@@ -174,25 +193,25 @@ namespace CARRITO_D.Controllers
         }
 
 
-        public async Task<IActionResult> Sumar(int? id)
+        public IActionResult Sumar(int? id)
         {
             if (id == null || _context.CarritosItems == null)
             {
                 return NotFound();
             }
 
-            var carritoItem = await _context.CarritosItems
+            var carritoItem = _context.CarritosItems
                 .Include(c => c.Carrito)
                 .Include(c => c.Producto)
-                .FirstOrDefaultAsync(m => m.CarritoId == id);
+                .FirstOrDefault(m => m.CarritoId == id);
             if (carritoItem == null)
             {
                 return NotFound();
             }
 
             carritoItem.Cantidad++;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _context.SaveChanges();
+            return RedirectToAction("Details", "Carritos", carritoItem.Carrito.ClienteId);
         }
 
         public async Task<IActionResult> Restar(int? id)

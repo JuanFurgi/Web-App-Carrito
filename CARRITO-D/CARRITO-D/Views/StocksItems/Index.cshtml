@@ -31,10 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sucursal.SucursalId)
+                @Html.DisplayFor(modelItem => item.Sucursal.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Producto.Id)
+                @Html.DisplayFor(modelItem => item.Producto.Nombre)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

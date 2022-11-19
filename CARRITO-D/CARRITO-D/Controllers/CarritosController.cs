@@ -40,16 +40,20 @@ namespace CARRITO_D.Controllers
                 return NotFound();
             }
 
+            /*
             var carrito = await _context.Carritos
                 .Include(c => c.Cliente)
                 .Include( c=> c.CarritoItems)
                 .FirstOrDefaultAsync(m => m.CarritoId == id);
-            if (carrito == null)
+            */
+            var carritoContext = _context.CarritosItems.Include(c => c.Carrito).Include(c => c.Producto).Where(c => c.Carrito.ClienteId == id);
+
+            if (carritoContext == null)
             {
                 return NotFound();
             }
 
-            return View(carrito);
+            return View(carritoContext);
         }
 
         // GET: Carritos/Create

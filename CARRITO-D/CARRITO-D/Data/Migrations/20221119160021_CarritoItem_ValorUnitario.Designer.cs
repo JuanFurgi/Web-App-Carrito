@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CARRITO_D.Migrations
 {
     [DbContext(typeof(CarritoContext))]
-    [Migration("20221112221544_SucursalDireccion")]
-    partial class SucursalDireccion
+    [Migration("20221119160021_CarritoItem_ValorUnitario")]
+    partial class CarritoItem_ValorUnitario
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,9 +38,6 @@ namespace CARRITO_D.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Subtotal")
-                        .HasColumnType("real");
-
                     b.HasKey("CarritoId");
 
                     b.HasIndex("ClienteId");
@@ -59,11 +56,8 @@ namespace CARRITO_D.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<float>("Subtotal")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ValorUnitario")
-                        .HasColumnType("real");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.HasKey("CarritoId", "ProductoId");
 
@@ -159,12 +153,10 @@ namespace CARRITO_D.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoriaId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("SucursalId", "ProductoId");
-
-                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("ProductoId");
 
@@ -518,7 +510,7 @@ namespace CARRITO_D.Migrations
             modelBuilder.Entity("CARRITO_D.Models.Producto", b =>
                 {
                     b.HasOne("CARRITO_D.Models.Categoria", "Categoria")
-                        .WithMany()
+                        .WithMany("Productos")
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -528,10 +520,6 @@ namespace CARRITO_D.Migrations
 
             modelBuilder.Entity("CARRITO_D.Models.StockItem", b =>
                 {
-                    b.HasOne("CARRITO_D.Models.Categoria", null)
-                        .WithMany("Productos")
-                        .HasForeignKey("CategoriaId");
-
                     b.HasOne("CARRITO_D.Models.Producto", "Producto")
                         .WithMany("StocksItem")
                         .HasForeignKey("ProductoId")

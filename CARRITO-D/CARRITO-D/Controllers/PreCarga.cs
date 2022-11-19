@@ -27,7 +27,6 @@ namespace CARRITO_D.Controllers
         public IActionResult Seed()
         {
             CrearRoles().Wait();
-            //CrearCarrito().Wait();
             CrearEmpleados().Wait();
             CrearClientes().Wait();
             CrearCategoria().Wait();
@@ -51,14 +50,6 @@ namespace CARRITO_D.Controllers
             _context.Sucursales.Add(sucursal);
             _context.SaveChanges();
         }
-
-        
-        /*private async Task CrearCarrito()
-        {
-            Carrito carrito = new Carrito();
-            _context.Carritos.Add(carrito);
-            _context.SaveChanges();
-        }*/
         
 
         private async Task CrearCategoria()
@@ -184,8 +175,12 @@ namespace CARRITO_D.Controllers
 
             if (resultadoCreate.Succeeded)
             {
+                Carrito carritoNuevo = new Carrito(clienteNuevo.Id);
+
                 await _userManager.AddToRoleAsync(clienteNuevo, Configs.ClienteRolName);
 
+                _context.Carritos.Add(carritoNuevo);
+                _context.SaveChanges();
             }
         }
 

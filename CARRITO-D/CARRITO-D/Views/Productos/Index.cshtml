@@ -21,15 +21,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.PrecioVigente)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -46,21 +42,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.PrecioVigente)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Nombre)
-            </td>
+            
             <td>
                 @if(User.IsInRole("Empleado")){
                         <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a> <span>|</span>
                         <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
                 }
-                
+                <a asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Mas informacion</a> 
                 
             </td>

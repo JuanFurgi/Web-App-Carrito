@@ -54,7 +54,7 @@
                             }
                             if(User.IsInRole("Cliente")){
                                 <li class="nav-item navbar-carrito">
-                                    <a class="nav-link navbar-carrito" asp-area="" asp-controller="Carritos" asp-action="Details"></a>
+                                    <a class="nav-link navbar-carrito" asp-area="" asp-controller="Carritos" asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)"></a>
                                 </li>
                             }
 

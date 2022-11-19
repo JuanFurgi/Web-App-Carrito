@@ -278,5 +278,77 @@ namespace CARRITO_D.Controllers
         {
           return _context.Clientes.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> EditarMiPerfil(int? id)
+        {
+            if (id == null || _context.Clientes == null)
+            {
+                return NotFound();
+            }
+
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            return View(cliente);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarMiPerfil(int id, [Bind("DNI,Id,Nombre,Apellido,UserName,Email,Direccion,FechaAlta,Telefono")] Cliente cliente)
+        {
+            if (id != cliente.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var clienteEnDb = _context.Clientes.Find(cliente.Id);
+
+                    if (clienteEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    clienteEnDb.Nombre = cliente.Nombre;
+                    clienteEnDb.Apellido = cliente.Apellido;
+                    clienteEnDb.DNI = cliente.DNI;
+                    clienteEnDb.Telefono = cliente.Telefono;
+                    clienteEnDb.Direccion = cliente.Direccion;
+                    clienteEnDb.FechaAlta = cliente.FechaAlta;
+
+                    if (!ActualizarMail(cliente, clienteEnDb))
+                    {
+                        ModelState.AddModelError("Email", "El Mail ya esta en uso");
+                        return View(cliente);
+                    }
+                    if (!ActualizarUsuario(cliente, clienteEnDb))
+                    {
+                        ModelState.AddModelError("UserName", "El UserName ya esta en uso");
+                        return View(cliente);
+                    }
+
+                    _context.Update(clienteEnDb);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClienteExists(cliente.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            return View(cliente);
+        }
     }
 }

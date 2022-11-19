@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace CARRITO_D.Models
 {
     public class CarritoItem {
-
         
         public int Id { get; set; }
 
@@ -20,17 +19,19 @@ namespace CARRITO_D.Models
             }        
         }
 
-        [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PORQUE NO SABEMOS CUAL SERIA EL PRECIO MAX AL QUE UN PRODUCTO PODRIA LLEGAR A VALER
+        
         [Display(Name = Alias.ValorUnidad)]
+        [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
         public float ValorUnitario
         {
             get
             {
-                return ValorUnitario;
-            }
-            set
-            {
-                ValorUnitario = this.Producto.PrecioVigente;
+                float resultado = 0;
+                if(Producto != null)
+                {
+                    resultado = Producto.PrecioVigente;
+                }
+                return resultado;
             }
         }
 

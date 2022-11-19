@@ -62,7 +62,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cantidad,SucursalId,ProductoId")] StockItem stockItem)
+        public async Task<IActionResult> Create([Bind("Id,Cantidad,SucursalId,ProductoId")] StockItem stockItem)
         {
             //ERROR EN SAVE CHANGES PORQUE HAY MIGRACIONES CON LAS QUE NO SE AVANZARON POR ERRORES
             if (ModelState.IsValid)
