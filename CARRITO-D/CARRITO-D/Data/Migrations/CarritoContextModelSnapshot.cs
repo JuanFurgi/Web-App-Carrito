@@ -40,7 +40,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Carritos");
+                    b.ToTable("Carritos", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.CarritoItem", b =>
@@ -61,7 +61,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("CarritosItems");
+                    b.ToTable("CarritosItems", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Categoria", b =>
@@ -80,7 +80,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("Categorias");
+                    b.ToTable("Categorias", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Compra", b =>
@@ -106,7 +106,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Compras");
+                    b.ToTable("Compras", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Producto", b =>
@@ -137,7 +137,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Productos");
+                    b.ToTable("Productos", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.StockItem", b =>
@@ -158,7 +158,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("StocksItems");
+                    b.ToTable("StocksItems", (string)null);
                 });
 
             modelBuilder.Entity("CARRITO_D.Models.Sucursal", b =>
@@ -185,7 +185,7 @@ namespace CARRITO_D.Migrations
 
                     b.HasKey("SucursalId");
 
-                    b.ToTable("Sucursales");
+                    b.ToTable("Sucursales", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>

@@ -80,7 +80,7 @@ namespace CARRITO_D.Controllers
                 {
                     _context.CarritosItems.Add(carritoItem);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Carritos", new {id = _userManager.GetUserId(User) });
                 }
                 catch (DbUpdateException)
                 {
@@ -159,7 +159,7 @@ namespace CARRITO_D.Controllers
             var carritoItem = await _context.CarritosItems
                 .Include(c => c.Carrito)
                 .Include(c => c.Producto)
-                .FirstOrDefaultAsync(m => m.CarritoId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (carritoItem == null)
             {
                 return NotFound();
@@ -177,14 +177,14 @@ namespace CARRITO_D.Controllers
             {
                 return Problem("Entity set 'CarritoContext.CarritosItems'  is null.");
             }
-            var carritoItem = await _context.CarritosItems.FindAsync(id);
+            var carritoItem = await _context.CarritosItems.FirstAsync(c => c.Id == id);
             if (carritoItem != null)
             {
                 _context.CarritosItems.Remove(carritoItem);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details",  "Carritos", new {id = _userManager.GetUserId(User)});
         }
 
         private bool CarritoItemExists(int id)

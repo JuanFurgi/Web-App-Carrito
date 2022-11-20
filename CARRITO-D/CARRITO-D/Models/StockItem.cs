@@ -6,6 +6,7 @@ namespace CARRITO_D.Models
 {
     public class StockItem
     {
+        [Key]
         public int Id { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]

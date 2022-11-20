@@ -6,7 +6,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace CARRITO_D.Models
 {
     public class CarritoItem {
-        
+
+        [Key]
         public int Id { get; set; }
 
         [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
