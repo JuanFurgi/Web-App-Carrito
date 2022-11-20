@@ -7,23 +7,44 @@ namespace CARRITO_D.Models
 {
     public class CarritoItem {
 
-        [DataType(DataType.Currency, ErrorMessage =ErrorMsg.TipoInvalido)]
-        [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)]
-        public float Subtotal { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PORQUE NO SABEMOS CUAL SERIA EL PRECIO MAX AL QUE UN PRODUCTO PODRIA LLEGAR A VALER
+        [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
+        
+        public float Subtotal 
+        {
+            get
+            {
+                return ValorUnitario * Cantidad;
+            }        
+        }
+
+        
         [Display(Name = Alias.ValorUnidad)]
-        public float ValorUnitario { get; set; }
+        [DataType(DataType.Currency, ErrorMessage = ErrorMsg.TipoInvalido)]
+        public float ValorUnitario
+        {
+            get
+            {
+                float resultado = 0;
+                if(Producto != null)
+                {
+                    resultado = Producto.PrecioVigente;
+                }
+                return resultado;
+            }
+        }
 
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         [Range(1, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] //PONEMOS 1 PORQUE CREEMOS QUE PARA ESTAR EN CARRITOITEM DEBE TENER POR LO MENOS 1
-        public int Cantidad { get; set; }
+        public int Cantidad { get; set; } = 0;
 
-        [Key, ForeignKey("Carrito")]
+        [ForeignKey("Carrito")]
         public int CarritoId { get; set; }
         public Carrito Carrito { get; set; }
 
-        [Key, ForeignKey("Producto")]
+        [ForeignKey("Producto")]
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
     }

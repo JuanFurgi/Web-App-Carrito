@@ -1,10 +1,10 @@
 ﻿@model CARRITO_D.Models.CarritoItem
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
 <h4>CarritoItem</h4>
 <hr />
@@ -12,29 +12,32 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Subtotal" class="control-label"></label>
-                <input asp-for="Subtotal" class="form-control" />
-                <span asp-validation-for="Subtotal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ValorUnitario" class="control-label"></label>
-                <input asp-for="ValorUnitario" class="form-control" />
-                <span asp-validation-for="ValorUnitario" class="text-danger"></span>
-            </div>
+            
+            <input asp-for="ValorUnitario" type="hidden"/>
+            
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label"></label>
                 <input asp-for="Cantidad" class="form-control" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
+            
+                
             <div class="form-group">
                 <label asp-for="CarritoId" class="control-label"></label>
                 <select asp-for="CarritoId" class ="form-control" asp-items="ViewBag.CarritoId"></select>
             </div>
+            
+            <!--No selecciono CarritoId porque solo va a haber uno activo
+                <input type="hidden" asp-for="CarritoId" 
+                
+                No selecciono producto sino que agrego los productos desde seccion Productos
+            />-->
+
             <div class="form-group">
                 <label asp-for="ProductoId" class="control-label"></label>
-                <select asp-for="ProductoId" class ="form-control" asp-items="ViewBag.ProductoId"></select>
+                <select asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoNombre"></select>
             </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -43,7 +46,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Volver</a>
 </div>
 
 @section Scripts {

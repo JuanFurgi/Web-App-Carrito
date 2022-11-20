@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CARRITO_D.Models.CarritoItem>
+
+<table class="table">
+<thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Carrito)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorUnitario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subtotal)
+        </th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorUnitario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtotal)
+            </td>
+            <td>
+                <a asp-controller="CarritosItems" asp-action="Sumar" asp-route-id="@item.Id">+</a> |
+                <a asp-controller="CarritosItems" asp-action="Restar" asp-route-id="@item.Id">-</a> |
+                <a asp-controller="Productos" asp-action="Details" asp-route-id="@item.ProductoId">Mas Informacion</a> |
+                <a asp-controller="CarritosItems" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+            </td>
+        </tr>
+    }
+</tbody>
+</table>

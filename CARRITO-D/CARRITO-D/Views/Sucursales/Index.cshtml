@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<CARRITO_D.Models.Sucursal>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sucursales";
 }
 
-<h1>Index</h1>
+<h1>Sucursales</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if(User.IsInRole("Empleado")){
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -18,12 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -36,16 +34,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SucursalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SucursalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SucursalId">Delete</a>
+                @if(User.IsInRole("Empleado"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.SucursalId">Editar</a> <span>|</span>
+                    <a asp-action="Delete" asp-route-id="@item.SucursalId">Eliminar</a> <span>|</span>
+                    <a asp-action="SumarProducto" asp-route-id="@item.SucursalId">Sumar</a> <span>|</span>
+                }
+                <a asp-action="Details" asp-route-id="@item.SucursalId">Mas informacion</a>
+                
             </td>
         </tr>
 }

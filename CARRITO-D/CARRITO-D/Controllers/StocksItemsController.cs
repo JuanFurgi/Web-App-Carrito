@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Empleado")]
     public class StocksItemsController : Controller
     {
         private readonly CarritoContext _context;
@@ -49,8 +52,8 @@ namespace CARRITO_D.Controllers
         // GET: StocksItems/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id");
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "SucursalId");
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre");
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
             return View();
         }
 
@@ -59,16 +62,17 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cantidad,SucursalId,ProductoId")] StockItem stockItem)
+        public async Task<IActionResult> Create([Bind("Id,Cantidad,SucursalId,ProductoId")] StockItem stockItem)
         {
+            //ERROR EN SAVE CHANGES PORQUE HAY MIGRACIONES CON LAS QUE NO SE AVANZARON POR ERRORES
             if (ModelState.IsValid)
             {
                 _context.Add(stockItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Id", stockItem.ProductoId);
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "SucursalId", stockItem.SucursalId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre", stockItem.ProductoId);
+            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre", stockItem.SucursalId);
             return View(stockItem);
         }
 

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<CARRITO_D.Models.StockItem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Items en Stock";
 }
 
-<h1>Index</h1>
+<h1>Items en Stock</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -31,10 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sucursal.SucursalId)
+                @Html.DisplayFor(modelItem => item.Sucursal.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Producto.Id)
+                @Html.DisplayFor(modelItem => item.Producto.Nombre)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

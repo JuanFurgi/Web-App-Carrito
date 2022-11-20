@@ -9,7 +9,7 @@ namespace CARRITO_D.Models
         [StringLength(20, MinimumLength = 4, ErrorMessage =ErrorMsg.MsgMaxMinStr)]
         public string Nombre { get; set; }
 
-        [StringLength(25, MinimumLength = 4, ErrorMessage = ErrorMsg.MsgMaxMinStr)]
+        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsg.MsgMaxMinStr)]
         public string Direccion { get; set; }
 
         [DataType(DataType.PhoneNumber, ErrorMessage =ErrorMsg.TipoInvalido)]

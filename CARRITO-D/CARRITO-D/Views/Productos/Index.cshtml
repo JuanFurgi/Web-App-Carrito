@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<CARRITO_D.Models.Producto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos";
 }
 
-<h1>Index</h1>
+<h1>Productos Klouth</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if(User.IsInRole("Empleado")){
+    <p>
+        <a asp-action="Create">Crear Nuevo</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -18,15 +21,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.PrecioVigente)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -34,24 +33,28 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Activo)
+                @if(item.Activo){
+                    @Html.DisplayFor(modelItem => item.Activo)
+                }else{
+                    <p style="color:#6c757d">Pausado</p>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.PrecioVigente)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.CategoriaId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if(User.IsInRole("Empleado")){
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a> <span>|</span>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
+                }
+                <a asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Mas informacion</a> 
+                
             </td>
         </tr>
 }

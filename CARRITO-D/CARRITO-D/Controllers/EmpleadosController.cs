@@ -9,9 +9,12 @@ using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Identity;
 using CARRITO_D.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Empleado")]
     public class EmpleadosController : Controller
     {
         private readonly CarritoContext _context;
@@ -122,7 +125,7 @@ namespace CARRITO_D.Controllers
             {
                 try
                 {
-                    _context.Update(empleado);
+                    _context.Empleados.Update(empleado);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -136,7 +139,7 @@ namespace CARRITO_D.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(empleado);
         }

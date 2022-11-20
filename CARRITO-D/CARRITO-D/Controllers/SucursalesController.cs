@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
+    [Authorize]
     public class SucursalesController : Controller
     {
         private readonly CarritoContext _context;
@@ -20,6 +22,7 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Sucursales
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
               return View(await _context.Sucursales.ToListAsync());
@@ -43,7 +46,13 @@ namespace CARRITO_D.Controllers
             return View(sucursal);
         }
 
+        private bool NombreUnico(string nombreSucursal)
+        {
+            return (_context.Sucursales.FirstOrDefault(c => c.Nombre == nombreSucursal) == null);
+        }
+
         // GET: Sucursales/Create
+        [Authorize(Roles = "Empleado")]
         public IActionResult Create()
         {
             return View();
@@ -54,18 +63,27 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Create([Bind("SucursalId,Nombre,Direccion,Telefono,Email")] Sucursal sucursal)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sucursal);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if(NombreUnico(sucursal.Nombre))
+                {
+                    _context.Add(sucursal);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Nombre", "Ya hay una sucursal con ese Nombre,\nIngrese otro");
+                }   
             }
             return View(sucursal);
         }
 
         // GET: Sucursales/Edit/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Sucursales == null)
@@ -86,6 +104,7 @@ namespace CARRITO_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Edit(int id, [Bind("SucursalId,Nombre,Direccion,Telefono,Email")] Sucursal sucursal)
         {
             if (id != sucursal.SucursalId)
@@ -95,28 +114,37 @@ namespace CARRITO_D.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (NombreUnico(sucursal.Nombre))
                 {
-                    _context.Update(sucursal);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        _context.Update(sucursal);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!SucursalExists(sucursal.SucursalId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!SucursalExists(sucursal.SucursalId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("Nombre", "Ya hay una sucursal con ese Nombre,\nIngrese otro");
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             return View(sucursal);
         }
 
         // GET: Sucursales/Delete/5
+        [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Sucursales == null)
@@ -157,5 +185,60 @@ namespace CARRITO_D.Controllers
         {
           return _context.Sucursales.Any(e => e.SucursalId == id);
         }
+
+
+        
+        // GET: Sucursales/Create
+        [Authorize(Roles = "Empleado")]
+        public async Task<IActionResult> SumarProducto(int? id)
+        {
+            if (id == null || _context.Sucursales == null)
+            {
+                return NotFound();
+            }
+
+            var sucursal = await _context.Sucursales.FindAsync(id);
+            if (sucursal == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Create", "StocksItems", id);
+        }
+
+        /*
+        // POST: Sucursales/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Empleado")]
+        public async Task<IActionResult> SumarProducto(int id, [Bind("Id,CategoriaId,Activo,Nombre,Descripcion,PrecioVigente")] Producto producto)
+        {
+            
+
+            if (id != sucursal.SucursalId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+              
+                StockItem stockItem = new StockItem()
+                {
+                    Cantidad = 1,
+                    ProductoId = producto.Id,
+                    SucursalId = sucursal.SucursalId
+                };
+                sucursal.StockItems.Add(stockItem);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View(producto);
+        }
+        */
+        
     }
 }

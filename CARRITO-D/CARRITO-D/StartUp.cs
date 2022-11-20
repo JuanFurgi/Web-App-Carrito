@@ -35,6 +35,7 @@ namespace CARRITO_D
             {
                 opciones.Password.RequireDigit = false;
                 opciones.Password.RequiredLength = 5;
+                opciones.User.RequireUniqueEmail = true;
             }
             );
 

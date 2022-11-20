@@ -1,10 +1,10 @@
 ﻿@model CARRITO_D.Models.Producto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Producto</h4>
@@ -14,7 +14,11 @@
             @Html.DisplayNameFor(model => model.Activo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Activo)
+            @if(Model.Activo){
+                @Html.DisplayFor(model => model.Activo)
+            }else{
+                <p style ="color:#6c757d">Pausado</p>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
@@ -38,11 +42,11 @@
             @Html.DisplayNameFor(model => model.Categoria)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria.CategoriaId)
+            @Html.DisplayFor(model => model.Categoria.Nombre)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <a asp-action="Index">Volver</a>
 </div>
