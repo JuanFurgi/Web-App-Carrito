@@ -1,0 +1,41 @@
+﻿@model CARRITO_D.ViewModels.CompraNueva
+
+@{
+    ViewData["Title"] = "Agradecimiento";
+}
+
+@if (ViewBag.Mensaje != null)
+{
+    <div>
+        <h2>@ViewBag.mensaje</h2>
+    </div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompraId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompraId)
+        </dd>
+        <dt class="col-sm-2">
+            Nombre de Sucursal
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Sucursal.Nombre
+        </dd>
+        
+        <dt class="col-sm-2">
+            Direccion
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Sucursal.Direccion
+        </dd>
+        <dt class="col-sm-2">
+            Telefono
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Sucursal.Telefono
+        </dd>
+    </dl>
+
+}

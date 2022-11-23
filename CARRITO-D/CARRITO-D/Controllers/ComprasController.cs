@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CARRITO_D.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +35,8 @@ namespace CARRITO_D.Controllers
             }
             else
             {
-                var carritoContext = _context.Compras.Include(c => c.Cliente).Where(c => c.ClienteId == id);
-                return View(await carritoContext.ToListAsync());
+                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).Where(c => c.ClienteId == id);
+                return View(carritoContext);
             }
 
             
@@ -50,6 +51,7 @@ namespace CARRITO_D.Controllers
             }
 
             var compra = await _context.Compras
+                .Include(c => c.Cliente)
                 .Include(c => c.Carrito.CarritoItems)
                 .FirstOrDefaultAsync(m => m.CompraId == id);
             if (compra == null)
@@ -61,11 +63,12 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: Carritos/Create  
-        public IActionResult Create()
+        public IActionResult Create(int? id)
          {
-            int clienteId = Int32.Parse(_userManager.GetUserId(User));
-            ViewData["ClienteId"] = new SelectList(_context.Clientes.Where(c => c.Id == clienteId), "Id", "Apellido");
-            ViewData["CarritoId"] = new SelectList(_context.Carritos.Where(c => c.ClienteId == clienteId), "CarritoId", "CarritoId");
+            ViewData["TotalValue"] = 0;
+            ViewData["ClienteId"] = id;
+            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == id).CarritoId;
+            ViewData["Sucursales"] = new SelectList(_context.Sucursales,"SucursalId", "Nombre");
             return View();
          }
 
@@ -75,40 +78,79 @@ namespace CARRITO_D.Controllers
          // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
          [HttpPost]
          [ValidateAntiForgeryToken]
-         public async Task<IActionResult> Create([Bind("CompraId,Total,CarritoId,ClienteId")] Compra compra)
+         public async Task<IActionResult> Create([Bind("SucursalId,CompraId,Total,CarritoId,ClienteId")] CompraNueva compra)
          {
-            
 
-             if (ModelState.IsValid)
+            if (ModelState.IsValid)
              {
-                float total = 0;
-                var carritoItems = _context.Carritos.Include(c => c.CarritoItems).First(c => c.CarritoId == compra.CarritoId).CarritoItems;
-                if (carritoItems != null)
+                Sucursal sucursalNueva = _context.Sucursales.Find(compra.SucursalId);
+                //var carrito = _context.Carritos.Include(c => c.CarritoItems).First(c => c.CarritoId == compra.CarritoId);
+                if(sucursalNueva == null)
                 {
-
-                    foreach (var item in carritoItems)
+                    ModelState.AddModelError(string.Empty, "Sucursal no encontrada");
+                    return View(compra);
+                }
+                var carritoI = _context.CarritosItems.Include(c => c.Producto).Where(c => c.CarritoId == compra.CarritoId);
+                if (carritoI != null)
+                {
+                    float total = 0;
+                    foreach (var item in carritoI)
                     {
                         total += item.Subtotal;
                     }
+
+                    Compra compraNueva = new Compra()
+                    {
+                        Total = total,
+                        CarritoId = compra.CarritoId,
+                        ClienteId = compra.ClienteId
+                    };
+
+                    desactivarCarrito(compra.CarritoId);
+                    crearNuevoCarrito(compra.ClienteId);
+
+                    _context.Compras.Add(compraNueva);
+                    await _context.SaveChangesAsync();
+                    compra.Total = total;
+                    compra.CompraId = compraNueva.CompraId;
+                    return RedirectToAction(nameof(Agradecimiento), compra);
                 }
-
-                Compra compraNueva = new Compra()
-                {
-                    Total = total,
-                    CarritoId = compra.CarritoId,
-                    ClienteId = compra.ClienteId
-                };
-
-
-                _context.Compras.Add(compraNueva);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
+                                
              }
              ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
              ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id");
              return View(compra);
          }
-        
+
+        private void crearNuevoCarrito(int id)
+        {
+            Carrito carritoNuevo = new Carrito(id);
+            _context.Carritos.Add(carritoNuevo);
+        }
+
+        private void desactivarCarrito(int carritoId)
+        {
+            _context.Carritos.Find(carritoId).Activo = false;
+        }
+
+        /*
+         * NO SE ELIMINAN ITEMS DE CARRITO SINO QUE SE DESACTIVA EL CARRITO
+        private void eliminoItemsDeCarrito(int carritoId)
+        {
+            var carrito = _context.Carritos.Include(c => c.CarritoItems).First(c => c.CarritoId == carritoId);
+
+            carrito.CarritoItems.RemoveAll(c => c.CarritoId == carritoId);
+        }
+        */
+
+        public IActionResult Agradecimiento(CompraNueva compra)
+        {
+            ViewData["Mensaje"] = "Muchas gracias por confiar en nosotros!";
+            ViewData["Sucursal"] = _context.Sucursales.Find(compra.SucursalId);
+
+            return View(compra);
+        }
+
 
         // GET: Carritos/Edit/5
         /*

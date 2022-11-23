@@ -28,11 +28,14 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
             </td>
             <td>
                 
-                <a asp-action="Details" asp-route-id="@item.CompraId">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.CompraId">Mas Informacion</a>
                 
             </td>
         </tr>
