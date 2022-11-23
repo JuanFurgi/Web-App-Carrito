@@ -151,11 +151,11 @@ namespace CARRITO_D.Controllers
             // int personaId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (User.IsInRole("Cliente"))
             {
-                return RedirectToAction("EditarMiPerfil", "Clientes", new { id = personaId });
+                return RedirectToAction("Details", "Clientes", new { id = personaId });
             }
             else
             {
-                return RedirectToAction("Edit", "Empleados", new { id = personaId });
+                return RedirectToAction("Details", "Empleados", new { id = personaId });
             }
             
         }
