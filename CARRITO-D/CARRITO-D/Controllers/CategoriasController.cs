@@ -63,10 +63,9 @@ namespace CARRITO_D.Controllers
         {
             if(_context.Categorias.FirstOrDefault(c => c.Nombre == categoria.Nombre) != null)
             {
-                return RedirectToAction("Create", "Categorias", new { mensaje = "Nombre de categoria ya existente"});
+                ModelState.AddModelError("Nombre", "Nombre de categoria ya existente");
             }
-
-            if (ModelState.IsValid)
+            else if(ModelState.IsValid)
             {
                 _context.Add(categoria);
                 await _context.SaveChangesAsync();

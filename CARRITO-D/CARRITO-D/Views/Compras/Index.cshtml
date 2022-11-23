@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CARRITO_D.Models.Compra>
+
+@{
+    ViewData["Title"] = "Historial";
+}
+
+<h1>Historial Compras</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Carrito)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
+            </td>
+            <td>
+                
+                <a asp-action="Details" asp-route-id="@item.CompraId">Mas Informacion</a>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

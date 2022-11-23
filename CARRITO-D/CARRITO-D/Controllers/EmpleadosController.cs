@@ -93,6 +93,9 @@ namespace CARRITO_D.Controllers
             return View(empleado);
         }
 
+
+        /*
+         * NO SE PUEDE EDITAR UN EMPLEADO
         // GET: Empleados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -125,7 +128,23 @@ namespace CARRITO_D.Controllers
             {
                 try
                 {
-                    _context.Empleados.Update(empleado);
+                    var empleadoEnDb = _context.Empleados.Find(empleado.Id);
+
+                    if (empleadoEnDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    empleadoEnDb.Legajo = empleado.Legajo;
+                    empleadoEnDb.Nombre = empleado.Nombre;
+                    empleadoEnDb.Apellido = empleado.Apellido;
+                    empleadoEnDb.UserName = empleado.UserName;
+                    empleadoEnDb.Email = empleado.Email;
+                    empleadoEnDb.Direccion = empleado.Direccion;
+                    empleadoEnDb.FechaAlta = empleado.FechaAlta;
+                    empleadoEnDb.Telefono = empleado.Telefono;
+
+                    _context.Empleados.Update(empleadoEnDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -143,6 +162,7 @@ namespace CARRITO_D.Controllers
             }
             return View(empleado);
         }
+        */
 
         // GET: Empleados/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -184,6 +204,16 @@ namespace CARRITO_D.Controllers
         private bool EmpleadoExists(int id)
         {
           return _context.Empleados.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> VerHistorial()
+        {
+            if (_context.Compras == null)
+            {
+                return Problem("No hay compras");
+            }
+
+            return RedirectToAction("Index", "Compras");
         }
     }
 }

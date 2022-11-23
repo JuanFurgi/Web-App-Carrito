@@ -350,5 +350,22 @@ namespace CARRITO_D.Controllers
             }
             return View(cliente);
         }
+
+        public async Task<IActionResult> VerHistorial(int? id)
+        {
+            if (id == null || _context.Clientes == null)
+            {
+                return NotFound();
+            }
+
+            var cliente = await _context.Clientes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Index", "Compras", new {id = id});
+        }
     }
 }

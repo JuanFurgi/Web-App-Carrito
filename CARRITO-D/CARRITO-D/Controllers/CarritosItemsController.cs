@@ -203,7 +203,7 @@ namespace CARRITO_D.Controllers
             var carritoItem = _context.CarritosItems
                 .Include(c => c.Carrito)
                 .Include(c => c.Producto)
-                .FirstOrDefault(m => m.CarritoId == id);
+                .FirstOrDefault(m => m.ProductoId == id);
             if (carritoItem == null)
             {
                 return NotFound();
@@ -211,7 +211,7 @@ namespace CARRITO_D.Controllers
 
             carritoItem.Cantidad++;
             _context.SaveChanges();
-            return RedirectToAction("Details", "Carritos", carritoItem.Carrito.ClienteId);
+            return RedirectToAction("Details", "Carritos", new {id = _userManager.GetUserId(User)});
         }
 
         public async Task<IActionResult> Restar(int? id)
@@ -224,21 +224,31 @@ namespace CARRITO_D.Controllers
             var carritoItem = await _context.CarritosItems
                 .Include(c => c.Carrito)
                 .Include(c => c.Producto)
-                .FirstOrDefaultAsync(m => m.CarritoId == id);
+                .FirstOrDefaultAsync(m => m.ProductoId == id);
             if (carritoItem == null)
             {
                 return NotFound();
             }
 
-            if(carritoItem.Cantidad <= 0)
+            if(carritoItem.Cantidad <= 1)
             {
-                ModelState.AddModelError(string.Empty, "No se pueden restar mas productos");
-                return RedirectToAction(nameof(Index));
+                await DeleteConfirmed(carritoItem.Id);
+                //ModelState.AddModelError(string.Empty, "No se pueden restar mas productos");
+                //ModelState.AddModelError(string.Empty, "Se elimino el producto del carrito");
+                //return RedirectToAction(nameof(Index));
             }
 
             carritoItem.Cantidad--;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Carritos", new { id = _userManager.GetUserId(User) });
+        }
+
+        private void eliminarCarritoItem(CarritoItem carritoItem)
+        {
+            //_context.Carritos.Include(c => c.CarritoItems).First(c => c.CarritoItems.First(c => c.Id == id) != null);
+            Carrito carrito = _context.Carritos.Include(c => c.CarritoItems).First(c => c.CarritoId == carritoItem.CarritoId);
+            carrito.CarritoItems.Remove(carritoItem);
+            _context.SaveChanges();
         }
     }
 }

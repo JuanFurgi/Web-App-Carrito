@@ -1,13 +1,10 @@
 ﻿@model CARRITO_D.Models.Producto
 
-@{
-    ViewData["Title"] = "Detalles";
-}
 
 <div>
     <partial name="_DetallesProducto" for="@Model" />
 </div>
 <div>
-    
-    <a asp-action="Index">Volver</a>
+
+    <a asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)">Volver</a>
 </div>

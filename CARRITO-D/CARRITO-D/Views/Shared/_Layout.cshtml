@@ -51,11 +51,18 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="StocksItems" asp-action="Index">StocksItems</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="VerHistorial">Historial Clientes</a>
+                                </li>
                             }
                             if(User.IsInRole("Cliente")){
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="VerHistorial" asp-route-id="@signInManager.UserManager.GetUserId(User)">Mi Historial</a>
+                                </li>
                                 <li class="nav-item navbar-carrito">
                                     <a class="nav-link navbar-carrito" asp-area="" asp-controller="Carritos" asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)"></a>
                                 </li>
+                                
                             }
 
                             <li class="nav-item">
