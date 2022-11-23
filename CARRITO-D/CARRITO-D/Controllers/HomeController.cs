@@ -19,7 +19,10 @@ namespace CARRITO_D.Controllers
         public IActionResult Index(string mensaje)
         {
             ViewBag.Mensaje = mensaje;
-            ViewData["CarritoId"] = _context.Carritos.First(c => c.Activo == true).CarritoId;
+            if(_context.Carritos.Any())
+            {
+                ViewData["CarritoId"] = _context.Carritos.First(c => c.Activo == true).CarritoId;
+            }           
 
             return View();
         }

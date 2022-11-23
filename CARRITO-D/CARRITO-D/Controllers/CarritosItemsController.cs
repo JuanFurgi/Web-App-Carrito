@@ -55,14 +55,14 @@ namespace CARRITO_D.Controllers
         public IActionResult Create(int? id)
         {
             
-            ViewData["CarritoId"] = new SelectList(_context.Carritos.Where(c => c.ClienteId == int.Parse(_userManager.GetUserId(User))), "CarritoId", "CarritoId");
+            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == int.Parse(_userManager.GetUserId(User))).CarritoId;
             if(id == null)
             {
-                ViewData["ProductoNombre"] = new SelectList(_context.Productos, "Id", "Nombre");
+                ViewData["ProductoId"] = new SelectList(_context.Productos.Where(c => c.Id == id), "Id", "Nombre");
             }
             else
             {
-                ViewData["ProductoNombre"] = new SelectList(_context.Productos.Where(c => c.Id == id), "Id", "Nombre");
+                ViewData["ProductoId"] = _context.Productos.First(c => c.Id == id).Id;
             }
             return View();
         }
