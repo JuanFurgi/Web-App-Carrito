@@ -15,28 +15,36 @@
             
             <input asp-for="ValorUnitario" type="hidden"/>
             
+            <input asp-for="ProductoId" value="@ViewBag.ProductoId" type="hidden" />
+            <input asp-for="CarritoId" value="@ViewBag.CarritoId" type="hidden" />
+            
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label"></label>
                 <input asp-for="Cantidad" class="form-control" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
+            <hr />
             
-                
+               
+            
+            
+            <!--No selecciono CarritoId porque solo va a haber uno activo
+
             <div class="form-group">
                 <label asp-for="CarritoId" class="control-label"></label>
                 <select asp-for="CarritoId" class ="form-control" asp-items="ViewBag.CarritoId"></select>
             </div>
-            
-            <!--No selecciono CarritoId porque solo va a haber uno activo
                 <input type="hidden" asp-for="CarritoId" 
                 
                 No selecciono producto sino que agrego los productos desde seccion Productos
-            />-->
 
-            <div class="form-group">
+                <div class="form-group">
                 <label asp-for="ProductoId" class="control-label"></label>
                 <select asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoNombre"></select>
             </div>
+            />-->
+
+            
             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
