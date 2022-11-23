@@ -49,7 +49,7 @@ namespace CARRITO_D.Controllers
                 .Include( c=> c.CarritoItems)
                 .FirstOrDefaultAsync(m => m.CarritoId == id);
             */
-            var carritoContext = _context.CarritosItems.Include(c => c.Carrito).Include(c => c.Producto).Where(c => c.Carrito.ClienteId == id);
+            var carritoContext = _context.CarritosItems.Include(c => c.Carrito).Include(c => c.Producto).Where(c => c.Carrito.ClienteId == id && c.Carrito.Activo);
 
             if (carritoContext == null)
             {

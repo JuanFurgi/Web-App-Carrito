@@ -1,9 +1,10 @@
 ﻿using CARRITO_D.Helpers;
+using CARRITO_D.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace CARRITO_D.Models
+namespace CARRITO_D.ViewModels
 {
-    public class Compra
+    public class CompraNueva
     {
         public int CompraId { get; set; }
 
@@ -20,5 +21,7 @@ namespace CARRITO_D.Models
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         public int CarritoId { get; set; }
         public Carrito Carrito { get; set; }
+
+        public int SucursalId { get; set; }
     }
 }
