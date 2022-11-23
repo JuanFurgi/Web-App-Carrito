@@ -93,6 +93,9 @@ namespace CARRITO_D.Controllers
             return View(empleado);
         }
 
+
+        /*
+         * NO SE PUEDE EDITAR UN EMPLEADO
         // GET: Empleados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -159,6 +162,7 @@ namespace CARRITO_D.Controllers
             }
             return View(empleado);
         }
+        */
 
         // GET: Empleados/Delete/5
         public async Task<IActionResult> Delete(int? id)

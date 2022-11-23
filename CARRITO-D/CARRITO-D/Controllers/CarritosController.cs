@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CARRITO_D.Controllers
 {
@@ -15,10 +16,12 @@ namespace CARRITO_D.Controllers
     public class CarritosController : Controller
     {
         private readonly CarritoContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public CarritosController(CarritoContext context)
+        public CarritosController(CarritoContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         /*
@@ -54,6 +57,54 @@ namespace CARRITO_D.Controllers
             }
 
             return View(carritoContext);
+        }
+
+        public async Task<IActionResult> LimpiarCarrito(int? id)
+        {
+            if (id == null || _context.Carritos == null)
+            {
+                return NotFound();
+            }
+
+            
+            var carrito = await _context.Carritos
+                .Include(c => c.Cliente)
+                .Include( c=> c.CarritoItems)
+                .FirstOrDefaultAsync(m => m.CarritoId == id);
+
+            if (carrito == null)
+            {
+                return NotFound();
+            }
+
+            for (int i = carrito.CarritoItems.Count(); i > 0; i--)
+            {
+                var item = carrito.CarritoItems[0];
+
+                carrito.CarritoItems.Remove(item);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Carritos", new {id = carrito.ClienteId });
+        }
+
+        public async Task<IActionResult> DetallesProducto(int? id)
+        {
+            if (id == null || _context.Productos == null)
+            {
+                return NotFound();
+            }
+
+            var producto = await _context.Productos
+                .Include(p => p.Categoria)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return View(producto);
         }
 
         // GET: Carritos/Create
