@@ -31,4 +31,14 @@
     margin: 0px;
 }
 
+a.links:hover{
+    color:black;
+}
+
+a.links-modif {
+    text-decoration: none;
+    font-size: inherit;
+    font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+}
+
 
