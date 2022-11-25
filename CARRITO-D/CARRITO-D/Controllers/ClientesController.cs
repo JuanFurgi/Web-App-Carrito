@@ -70,30 +70,43 @@ namespace CARRITO_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resultadoCreate = await _userManager.CreateAsync(cliente, Configs.Password);
-
-                if (resultadoCreate.Succeeded)
+                if (DniUnico(cliente.DNI))
                 {
-                    var resultadoAddRole = await _userManager.AddToRoleAsync(cliente, Configs.ClienteRolName);
+                    var resultadoCreate = await _userManager.CreateAsync(cliente, Configs.Password);
 
-                    if (resultadoAddRole.Succeeded)
+                    if (resultadoCreate.Succeeded)
                     {
-                        
-                        return RedirectToAction("Index", "Clientes");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.ClienteRolName}");
+                        var resultadoAddRole = await _userManager.AddToRoleAsync(cliente, Configs.ClienteRolName);
+
+                        if (resultadoAddRole.Succeeded)
+                        {
+
+                            return RedirectToAction("Index", "Clientes");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.ClienteRolName}");
+                        }
+
                     }
 
+                    foreach (var error in resultadoCreate.Errors)
+                    {
+                        ModelState.AddModelError(String.Empty, error.Description);
+                    }
                 }
-
-                foreach (var error in resultadoCreate.Errors)
+                else
                 {
-                    ModelState.AddModelError(String.Empty, error.Description);
+                    ModelState.AddModelError("DNI", "Ya hay un cliente con ese DNI,\nIngrese otro");
                 }
+                
             }
             return View(cliente);
+        }
+
+        private bool DniUnico(int dni)
+        {
+            return !_context.Clientes.Any(c => c.DNI == dni);
         }
 
         // GET: Clientes/Edit/5

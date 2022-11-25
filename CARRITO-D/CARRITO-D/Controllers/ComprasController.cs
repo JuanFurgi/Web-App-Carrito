@@ -30,7 +30,7 @@ namespace CARRITO_D.Controllers
         {
             if(id == null)
             {
-                var carritoContext = _context.Compras.Include(c => c.Cliente);
+                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito);
                 return View(await carritoContext.ToListAsync());
             }
             else

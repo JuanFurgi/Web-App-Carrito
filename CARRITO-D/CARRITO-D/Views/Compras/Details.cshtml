@@ -37,6 +37,13 @@
 </div>
 -->
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@if(User.IsInRole("Empleado")){
+    <div>
+        <a class="links-modif" asp-action="Index">Volver</a>
+    </div>
+}else{
+    <div>
+        <a class="links-modif" asp-action="Index" asp-route-id="@Model.ClienteId">Volver</a>
+    </div>
+}
+

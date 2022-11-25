@@ -55,7 +55,7 @@ namespace CARRITO_D.Controllers
         public IActionResult Create(int? id)
         {
             
-            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == int.Parse(_userManager.GetUserId(User))).CarritoId;
+            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == int.Parse(_userManager.GetUserId(User)) && c.Activo).CarritoId;
             if(id == null)
             {
                 ViewData["ProductoId"] = new SelectList(_context.Productos.Where(c => c.Id == id), "Id", "Nombre");

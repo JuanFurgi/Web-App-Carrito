@@ -130,6 +130,7 @@ namespace CARRITO_D.Controllers
             return View(producto);
         }
 
+        /*
         // GET: Productos/Delete/5
         [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> Delete(int? id)
@@ -168,6 +169,7 @@ namespace CARRITO_D.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        */
 
         private bool ProductoExists(int id)
         {

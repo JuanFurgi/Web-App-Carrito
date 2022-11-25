@@ -20,47 +20,47 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-grey links" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                            <a class="nav-link text-grey links" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
                         </li>
                         @if(signInManager.IsSignedIn(User))
                         {
                             //Mostrar cosas que un user con sesion iniciada ve
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                                <a class="nav-link text-grey links" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
+                                <a class="nav-link text-grey links" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
                             </li>
                             
                             
                             if(signInManager.IsSignedIn(User) && User.IsInRole("Empleado")){
                                 //Mostrar cosas que solo un rol 'Empleado' puede ver
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Personas" asp-action="Index">Personas</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="Personas" asp-action="Index">Personas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="StocksItems" asp-action="Index">StocksItems</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="StocksItems" asp-action="Index">StocksItems</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="VerHistorial">Historial Clientes</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="Empleados" asp-action="VerHistorial">Historial Clientes</a>
                                 </li>
                             }
                             if(User.IsInRole("Cliente")){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="VerHistorial" asp-route-id="@signInManager.UserManager.GetUserId(User)">Mi Historial</a>
+                                    <a class="nav-link text-grey links" asp-area="" asp-controller="Clientes" asp-action="VerHistorial" asp-route-id="@signInManager.UserManager.GetUserId(User)">Mi Historial</a>
                                 </li>
                                 <li class="nav-item navbar-carrito">
-                                    <a class="nav-link navbar-carrito" asp-area="" asp-controller="Carritos" asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)"></a>
+                                    <a class="nav-link navbar-carrito links" asp-area="" asp-controller="Carritos" asp-action="Details" asp-route-id="@signInManager.UserManager.GetUserId(User)"></a>
                                 </li>
                                 
                             }
@@ -69,7 +69,7 @@
                                 <a class="nav-link navbar-usuario" asp-area="" asp-controller="Account" asp-action="EditarMiPerfil"></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark navbar-logout" asp-area="" asp-controller="Account" asp-action="CerrarSesion"></a>
+                                <a class="nav-link text-grey navbar-logout" asp-area="" asp-controller="Account" asp-action="CerrarSesion"></a>
                             </li>
 
                         }
@@ -77,10 +77,10 @@
                         {
                             //Mostrar cosas que un user SIN sesion iniciada ve
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registrar">Registrarse</a>
+                                <a class="nav-link text-grey links" asp-area="" asp-controller="Account" asp-action="Registrar">Registrarse</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="IniciarSesion">Iniciar Sesion</a>
+                                <a class="nav-link text-grey links" asp-area="" asp-controller="Account" asp-action="IniciarSesion">Iniciar Sesion</a>
                             </li>
                         }
                     </ul>
