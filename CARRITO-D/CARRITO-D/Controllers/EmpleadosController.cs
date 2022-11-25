@@ -67,30 +67,44 @@ namespace CARRITO_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resultadoCreate = await _userManager.CreateAsync(empleado, Configs.Password);
-
-                if (resultadoCreate.Succeeded)
+                if (LegajoUnico(empleado.Legajo))
                 {
-                    var resultadoAddRole = await _userManager.AddToRoleAsync(empleado, Configs.EmpleadoRolName);
+                    var resultadoCreate = await _userManager.CreateAsync(empleado, Configs.Password);
 
-                    if (resultadoAddRole.Succeeded)
+                    if (resultadoCreate.Succeeded)
                     {
-                        await _signInManager.SignInAsync(empleado, false);
-                        return RedirectToAction("Index", "Empleados", new { id = empleado.Id });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.EmpleadoRolName}");
+                        var resultadoAddRole = await _userManager.AddToRoleAsync(empleado, Configs.EmpleadoRolName);
+
+                        if (resultadoAddRole.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(empleado, false);
+                            return RedirectToAction("Index", "Empleados", new { id = empleado.Id });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(String.Empty, $"No se pudo agregar el rol de {Configs.EmpleadoRolName}");
+                        }
+
                     }
 
+                    foreach (var error in resultadoCreate.Errors)
+                    {
+                        ModelState.AddModelError(String.Empty, error.Description);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Legajo", "Ya hay una Empleado con ese nro de Legajo,\nIngrese otro");
                 }
 
-                foreach (var error in resultadoCreate.Errors)
-                {
-                    ModelState.AddModelError(String.Empty, error.Description);
-                }
+                
             }
             return View(empleado);
+        }
+
+        private bool LegajoUnico(int legajo)
+        {
+            return !_context.Empleados.Any(e => e.Legajo == legajo);
         }
 
 
