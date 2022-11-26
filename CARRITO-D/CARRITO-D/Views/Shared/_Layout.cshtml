@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-grey links" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-grey links" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
+                        </li>
                         @if(signInManager.IsSignedIn(User))
                         {
                             //Mostrar cosas que un user con sesion iniciada ve
@@ -32,9 +35,7 @@
                                 <a class="nav-link text-grey links" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
                             </li>
                             
-                            <li class="nav-item">
-                                <a class="nav-link text-grey links" asp-area="" asp-controller="Sucursales" asp-action="Index">Sucursales</a>
-                            </li>
+                            
                             
                             
                             if(signInManager.IsSignedIn(User) && User.IsInRole("Empleado")){
@@ -48,9 +49,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-grey links" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-grey links" asp-area="" asp-controller="StocksItems" asp-action="Index">StocksItems</a>
-                                </li>
+                                
                                 <li class="nav-item">
                                     <a class="nav-link text-grey links" asp-area="" asp-controller="Empleados" asp-action="VerHistorial">Historial Clientes</a>
                                 </li>

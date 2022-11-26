@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CARRITO_D.Controllers
 {
-    [Authorize]
     public class SucursalesController : Controller
     {
         private readonly CarritoContext _context;
@@ -203,7 +202,7 @@ namespace CARRITO_D.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Create", "StocksItems", id);
+            return RedirectToAction("Create", "StocksItems", new {id = id });
         }
 
         /*

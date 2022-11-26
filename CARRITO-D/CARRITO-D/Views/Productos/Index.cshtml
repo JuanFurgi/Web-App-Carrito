@@ -55,8 +55,10 @@
                     -->
 
                     <a class="links-modif" asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
+                }else{
+                    <a class="links-modif" asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> <span>|</span>
                 }
-                <a class="links-modif" asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> |
+                
                 <a class="links-modif" asp-action="Details" asp-route-id="@item.Id">Mas informacion</a>
 
             </td>
