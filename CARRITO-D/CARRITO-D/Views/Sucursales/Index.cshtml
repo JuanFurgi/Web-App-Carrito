@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             
-            <td>
+            <td class="links">
                 @if(User.IsInRole("Empleado"))
                 {
                     <a class="links-modif" asp-action="SumarProducto" asp-route-id="@item.SucursalId">Sumar Producto</a> <span>|</span>
