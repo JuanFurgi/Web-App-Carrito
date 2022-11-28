@@ -31,7 +31,7 @@
     margin: 0px;
 }
 
-a.links:hover{
+a.links:where(:hover){
     color:black;
 }
 
