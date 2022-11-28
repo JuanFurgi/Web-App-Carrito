@@ -31,7 +31,7 @@
     margin: 0px;
 }
 
-a.links:hover{
+a.links:where(:hover){
     color:black;
 }
 
@@ -41,4 +41,37 @@ a.links-modif {
     font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
 }
 
+.titles {
+    text-align:center;
+    font-family:'Nunito', sans-serif;
+}
+
+hr {
+    border: none;
+    border-top: 3px double #333;
+    color: #333;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    opacity:0.8;
+}
+
+hr:after {
+    background: #ffffff;
+    content: 'KL';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
+
+td.links {
+    text-align: right;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+}
 

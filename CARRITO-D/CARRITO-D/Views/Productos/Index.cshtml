@@ -4,7 +4,8 @@
     ViewData["Title"] = "Productos";
 }
 
-<h1>Productos Klouth</h1>
+<h1 class="titles">Productos Klouth</h1>
+<hr />
 
 @if(User.IsInRole("Empleado")){
     <p>
@@ -12,55 +13,95 @@
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Activo)
-            </th>
+@foreach(var cate in ViewBag.Categorias){
+    <h3 class="titles">@cate.Nombre</h3>
+    <table class="table">
+     <thead>
+        <tr style="color:grey">
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.PrecioVigente)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @if(item.Activo){
-                    @Html.DisplayFor(modelItem => item.Activo)
-                }else{
-                    <p style="color:#6c757d">Pausado</p>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioVigente)
-            </td>
-            
-            <td>
-                @if(User.IsInRole("Empleado")){
-                    <!--
-                        No se puede eliminar un producto
-                            <a asp-action="Delete" asp-route-id="item.Id">Borrar</a> <span>|</span>
-                    -->
+    @foreach(var item in Model){
+        if(item.CategoriaId == cate.CategoriaId){
+            @if (item.Activo)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
 
-                    <a class="links-modif" asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
-                }
-                <a class="links-modif" asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> |
-                <a class="links-modif" asp-action="Details" asp-route-id="@item.Id">Mas informacion</a>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrecioVigente)
+                    </td>
 
-            </td>
-        </tr>
+                    <td class="links">
+                        @if (User.IsInRole("Empleado"))
+                        {
+                            <!--
+                                No se puede eliminar un producto
+                                    <a asp-action="Delete" asp-route-id="item.Id">Borrar</a> <span>|</span>
+                            -->
+
+                            <a class="links-modif" asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
+                        }
+                        else
+                        {
+                            <a class="links-modif" asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> <span>|</span>
+                        }
+
+                        <a class="links-modif" asp-action="Details" asp-route-id="@item.Id">Mas informacion</a>
+
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr style="background-color:lightgrey">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrecioVigente)
+                    </td>
+
+                    <td class="links">
+                        @if (User.IsInRole("Empleado"))
+                        {
+                            <!--
+                                No se puede eliminar un producto
+                                    <a asp-action="Delete" asp-route-id="item.Id">Borrar</a> <span>|</span>
+                            -->
+
+                            <a class="links-modif" asp-action="Edit" asp-route-id="@item.Id">Editar</a> <span>|</span>
+                        }
+                        else
+                        {
+                            <a class="links-modif" asp-controller="CarritosItems" asp-action="Create" asp-route-id="@item.Id">Agregar al Carrito</a> <span>|</span>
+                        }
+
+                        <a class="links-modif" asp-action="Details" asp-route-id="@item.Id">Mas informacion</a>
+
+                    </td>
+                </tr>
+            }
+            
+        }
+    }
+        </tbody>
+    </table>
+    <hr />
 }
-    </tbody>
-</table>
+
+
+
+

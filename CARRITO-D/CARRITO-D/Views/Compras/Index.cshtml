@@ -11,13 +11,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Total)
+                    @Html.DisplayNameFor(model => model.CompraId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Cliente)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Carrito)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
                 </th>
                 <th></th>
             </tr>
@@ -27,7 +30,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Total)
+                        @Html.DisplayFor(modelItem => item.CompraId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Cliente.Nombre)
@@ -36,6 +39,9 @@
                         @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td class="links">
 
                         <a class="links-modif" asp-action="Details" asp-route-id="@item.CompraId">Mas Informacion</a>
 

@@ -33,7 +33,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
+            <td class="links">
                 <a class="links-modif" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                 <a class="links-modif" asp-action="Details" asp-route-id="@item.Id">Mas Informacion</a> |
                 <a class="links-modif" asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
