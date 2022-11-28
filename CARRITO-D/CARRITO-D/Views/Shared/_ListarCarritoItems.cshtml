@@ -40,7 +40,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Subtotal)
             </td>
-            <td>
+            <td class="links">
                 <a asp-controller="CarritosItems" asp-action="Sumar" asp-route-id="@item.Id" class="btn btn-light">+</a> |
                 <a asp-controller="CarritosItems" asp-action="Restar" asp-route-id="@item.Id" class="btn btn-light">-</a> |
                 <a asp-controller="Carritos" asp-action="DetallesProducto" asp-route-id="@item.ProductoId" class="text-dark">Mas Informacion</a> |

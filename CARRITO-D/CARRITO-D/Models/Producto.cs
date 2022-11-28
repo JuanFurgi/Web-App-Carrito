@@ -16,6 +16,7 @@ namespace CARRITO_D.Models
 
         [DataType(DataType.Currency, ErrorMessage =ErrorMsg.TipoInvalido)]
         [Range(1, int.MaxValue, ErrorMessage =ErrorMsg.MsgMinMaxRange)]
+        [Display(Name = Alias.ValorUnidad)]
         public float PrecioVigente { get; set; }  //usa 32 bits de espacio en vez de los 64 de double. Optimizacion de memoria
 
         //LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA

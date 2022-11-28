@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CARRITO_D.Controllers
 {
@@ -50,10 +51,18 @@ namespace CARRITO_D.Controllers
         }
 
         // GET: StocksItems/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
             ViewData["ProductoId"] = new SelectList(_context.Productos, "Id", "Nombre");
-            ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
+            if(id == null)
+            {
+                ViewData["SucursalId"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
+            }
+            else
+            {
+                ViewData["SucursalId"] = _context.Sucursales.Find(id).SucursalId;
+            }
+            
             return View();
         }
 
@@ -67,7 +76,14 @@ namespace CARRITO_D.Controllers
             //ERROR EN SAVE CHANGES PORQUE HAY MIGRACIONES CON LAS QUE NO SE AVANZARON POR ERRORES
             if (ModelState.IsValid)
             {
-                _context.Add(stockItem);
+                if(_context.StocksItems.Any(c => c.ProductoId == stockItem.ProductoId))
+                {
+                    _context.StocksItems.First(c => c.ProductoId == stockItem.ProductoId).Cantidad += stockItem.Cantidad;
+                }
+                else
+                {
+                    _context.StocksItems.Add(stockItem);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

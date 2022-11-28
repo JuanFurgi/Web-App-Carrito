@@ -25,6 +25,7 @@ namespace CARRITO_D.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            ViewData["Categorias"] = _context.Categorias.ToList();
             var carritoContext = _context.Productos.Include(p => p.Categoria);
             return View(await carritoContext.ToListAsync());
         }

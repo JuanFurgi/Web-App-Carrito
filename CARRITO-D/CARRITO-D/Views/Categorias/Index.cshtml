@@ -4,7 +4,7 @@
     ViewData["Title"] = "Categorias";
 }
 
-<h1>Categorias</h1>
+<h1 class="titles">Categorias</h1>
 @if(User.IsInRole("Empleado")){
     <p>
         <a asp-action="Create">Create New</a>
@@ -24,11 +24,11 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                    <a asp-action="MostrarProductos" asp-route-id="@item.CategoriaId" class="nav-link text-dark links-modif">@Html.DisplayFor(modelItem => item.Nombre)</a>
+            <td style="text-align:start" class="titles">
+                    <a asp-action="MostrarProductos" asp-route-id="@item.CategoriaId" class="nav-link text-dark">@Html.DisplayFor(modelItem => item.Nombre)</a>
             </td>
             
-            <td>
+            <td class="links">
                 @if(User.IsInRole("Empleado")){
                         <a class="links-modif" asp-action="Edit" asp-route-id="@item.CategoriaId">Editar</a> <span>|</span>
                         
