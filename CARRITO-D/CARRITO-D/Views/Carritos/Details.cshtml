@@ -24,12 +24,13 @@
 
         </dl>
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <div class="border-top footer text-muted">
+        <div class="container" style="margin-top:10px">
             <a asp-route-id="@signInManager.UserManager.GetUserId(User)" asp-action="Create" asp-controller="Compras" class="btn btn-success">Finalizar Compra</a>
             <a asp-route-id="@Model.FirstOrDefault().CarritoId" asp-action="LimpiarCarrito" asp-controller="Carritos" class="btn btn-danger">Limpiar Carrito</a>
+            <span class="links-volver"><a class="links-modif" asp-action="Index" asp-controller="Home">Volver</a></span>
         </div>
-    </footer>
+    </div>
 }else{
     <h1>No hay elementos</h1>
 }
