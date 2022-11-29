@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CARRITO_D.Models.StockItem>
+
+@{
+    ViewData["Title"] = "Items en Stock";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sucursal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sucursal.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                </td>
+                <td class="links">
+                    
+                    @if(User.IsInRole("Empleado")){
+                        <a class="links-modif" asp-action="Edit" asp-route-id="@item.Producto.Id">Editar</a> <span> | </span>
+                        <a class="links-modif" asp-action="Delete" asp-route-id="@item.Producto.Id">Borrar</a> <span> | </span>
+                    }
+                    <a class="links-modif" asp-controller="Productos" asp-action="Details" asp-route-id="@item.Producto.Id">Mas Infromacion</a>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

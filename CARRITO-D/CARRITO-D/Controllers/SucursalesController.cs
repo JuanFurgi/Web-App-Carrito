@@ -35,8 +35,10 @@ namespace CARRITO_D.Controllers
                 return NotFound();
             }
 
-            var sucursal = await _context.Sucursales
-                .FirstOrDefaultAsync(m => m.SucursalId == id);
+            var sucursal = _context.StocksItems
+                .Include(c => c.Sucursal)
+                .Include(c => c.Producto)
+                .Where(c => c.SucursalId == id);
             if (sucursal == null)
             {
                 return NotFound();
@@ -144,7 +146,7 @@ namespace CARRITO_D.Controllers
 
         // GET: Sucursales/Delete/5
         [Authorize(Roles = "Empleado")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string? msg)
         {
             if (id == null || _context.Sucursales == null)
             {
@@ -157,6 +159,7 @@ namespace CARRITO_D.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Mensaje = msg;
 
             return View(sucursal);
         }
@@ -170,14 +173,32 @@ namespace CARRITO_D.Controllers
             {
                 return Problem("Entity set 'CarritoContext.Sucursales'  is null.");
             }
-            var sucursal = await _context.Sucursales.FindAsync(id);
+            var sucursal = await _context.Sucursales.Include(c => c.StockItems).FirstAsync(c => c.SucursalId == id);
             if (sucursal != null)
             {
-                _context.Sucursales.Remove(sucursal);
+                if (!sucursal.StockItems.Any() || cantStockItems(sucursal.StockItems) == 0)
+                {
+                    _context.Sucursales.Remove(sucursal);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Delete), new {id = id, msg = "No se puede eliminar Sucursal ya que tiene Items" });
+                }
+                                
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private int cantStockItems(List<StockItem> stockItems)
+        {
+            int total = 0;
+            foreach(var item in stockItems)
+            {
+                total += item.Cantidad;
+            }
+            return total;
         }
 
         private bool SucursalExists(int id)
