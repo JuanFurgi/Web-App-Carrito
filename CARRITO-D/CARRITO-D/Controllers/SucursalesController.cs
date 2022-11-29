@@ -34,11 +34,14 @@ namespace CARRITO_D.Controllers
             {
                 return NotFound();
             }
-
+            /*
             var sucursal = _context.StocksItems
                 .Include(c => c.Sucursal)
                 .Include(c => c.Producto)
                 .Where(c => c.SucursalId == id);
+            */
+
+            var sucursal = _context.Sucursales.FirstOrDefault(c => c.SucursalId == id);
             if (sucursal == null)
             {
                 return NotFound();
