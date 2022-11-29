@@ -1,4 +1,4 @@
-﻿@model CARRITO_D.Models.Sucursal
+﻿@model IEnumerable<CARRITO_D.Models.StockItem>
 
 @{
     ViewData["Title"] = "Detalles";
@@ -11,31 +11,37 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.Sucursal.Nombre)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
+            @Html.DisplayFor(model => model.First().Sucursal.Nombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
+            @Html.DisplayNameFor(model => model.Sucursal.Direccion)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
+            @Html.DisplayFor(model => model.First().Sucursal.Direccion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
+            @Html.DisplayNameFor(model => model.Sucursal.Telefono)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
+            @Html.DisplayFor(model => model.First().Sucursal.Telefono)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Sucursal.Email)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.First().Sucursal.Email)
         </dd>
     </dl>
+
 </div>
 <div>
-    <a class="links-modif" asp-action="Index">Volver</a>
+    <hr />
+    <h5>Productos en stock</h5>
+    <partial name="_ListarStockItems" for="@Model" />
+</div>
+<div>
+    <a class="links-modif link-volver" asp-action="Index" asp-controller="Sucursales">Volver</a>
 </div>
