@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.Cantidad)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ValorUnitario)
+                @Html.DisplayNameFor(model => model.Producto.PrecioVigente)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Subtotal)
@@ -35,7 +35,7 @@
                     @Html.DisplayFor(modelItem => item.Cantidad)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ValorUnitario)
+                    @Html.DisplayFor(modelItem => item.Producto.PrecioVigente)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Subtotal)

@@ -34,12 +34,16 @@ namespace CARRITO_D.Controllers
             {
                 return NotFound();
             }
-            /*
-            var sucursal = _context.StocksItems
+            
+            var sucursal_con_items = _context.StocksItems
                 .Include(c => c.Sucursal)
                 .Include(c => c.Producto)
                 .Where(c => c.SucursalId == id);
-            */
+
+            if (sucursal_con_items.Any()) {
+                return View(nameof(DetailsConStock), sucursal_con_items);
+            }
+
 
             var sucursal = _context.Sucursales.FirstOrDefault(c => c.SucursalId == id);
             if (sucursal == null)
@@ -48,6 +52,11 @@ namespace CARRITO_D.Controllers
             }
 
             return View(sucursal);
+        }
+
+        public IActionResult DetailsConStock(IEnumerable<StockItem> stock)
+        {
+            return View(stock);
         }
 
         private bool NombreUnico(string nombreSucursal)

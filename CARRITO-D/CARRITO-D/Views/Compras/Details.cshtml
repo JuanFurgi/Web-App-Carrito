@@ -1,47 +1,46 @@
-﻿@model CARRITO_D.Models.Compra
+﻿@model CompraItems
 
 @{
     ViewData["Title"] = "Historial";
 }
 
-<h1>Historial</h1>
+<h3>Historial de Compra</h3>
 
 <div>
-    <h4>Compra</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
+            @Html.DisplayNameFor(model => model.Compra.Total)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
+            @Html.DisplayFor(model => model.Compra.Total)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cliente)
+            @Html.DisplayNameFor(model => model.Compra.Cliente)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cliente.Nombre)
+            @Html.DisplayFor(model => model.Compra.Cliente.Nombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Carrito)
+            @Html.DisplayNameFor(model => model.Compra.Carrito)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Carrito.CarritoId)
+            @Html.DisplayFor(model => model.Compra.Carrito.CarritoId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CompraId)
+            @Html.DisplayNameFor(model => model.Compra.CompraId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompraId)
+            @Html.DisplayFor(model => model.Compra.CompraId)
         </dd>
     </dl>
 </div>
-<!--
-    <h2>Productos</h2>
+
+<h4>Productos de compra</h4>
 <div>
-    <partial name="_ListarProductosEnCompra" for="@Model.Carrito.CarritoItems" />
+    <partial name="_ListarProductosEnCompra" for="@Model.Items" />
 </div>
--->
+
 
 @if(User.IsInRole("Empleado")){
     <div>
@@ -49,7 +48,7 @@
     </div>
 }else{
     <div>
-        <a class="links-modif" asp-action="Index" asp-route-id="@Model.ClienteId">Volver</a>
+        <a class="links-modif" asp-action="Index" asp-route-id="@Model.Compra.ClienteId">Volver</a>
     </div>
 }
 

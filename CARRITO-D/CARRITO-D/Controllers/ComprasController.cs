@@ -50,16 +50,22 @@ namespace CARRITO_D.Controllers
                 return NotFound();
             }
 
-            var compra = await _context.Compras
+            CompraItems mymodel = new CompraItems();
+            mymodel.Compra = await _context.Compras
                 .Include(c => c.Cliente)
                 .Include(c => c.Carrito.CarritoItems)
                 .FirstOrDefaultAsync(m => m.CompraId == id);
-            if (compra == null)
+
+            
+
+            if (mymodel.Compra == null)
             {
                 return NotFound();
             }
 
-            return View(compra);
+            mymodel.Items = _context.CarritosItems.Include(c => c.Producto).Where(c => c.CarritoId == _context.Compras.Find(id).CarritoId);
+
+            return View(mymodel);
         }
 
         // GET: Carritos/Create  
@@ -67,7 +73,7 @@ namespace CARRITO_D.Controllers
          {
             ViewData["TotalValue"] = 0;
             ViewData["ClienteId"] = id;
-            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == id).CarritoId;
+            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == id && c.Activo).CarritoId;
             ViewData["Sucursales"] = new SelectList(_context.Sucursales,"SucursalId", "Nombre");
             return View();
          }

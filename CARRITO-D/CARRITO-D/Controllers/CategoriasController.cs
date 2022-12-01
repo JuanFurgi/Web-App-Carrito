@@ -25,7 +25,7 @@ namespace CARRITO_D.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categorias.ToListAsync());
+              return View(_context.Categorias.ToList().DistinctBy(c => c.Nombre));
         }
 
         // GET: Categorias/Details/5

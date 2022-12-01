@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CARRITO_D.Models.StockItem>
+
+<partial name="Details" for="@Model.First().Sucursal" />
+
+@if(User.IsInRole("Empleado")){
+    <hr />
+    <h5>Productos en Stock</h5>
+    <partial name="_ListarStockItems" for="@Model" />
+}
+
