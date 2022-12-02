@@ -168,6 +168,7 @@ namespace CARRITO_D.Controllers
                 Direccion = "Vicente Lopez 789",
                 Telefono = 1123456789, //esto es igual a PhoneNumber? hace el override?
                 FechaAlta = DateTime.Now,
+                Foto = "Homero-foto-perfil.jpg"
                 //Carritos = new List<Carrito>(),
                 
                
@@ -201,7 +202,7 @@ namespace CARRITO_D.Controllers
                 Telefono = 1109876543,
                 Legajo = 109234,
                 FechaAlta = DateTime.Now,
-
+                Foto = "Moe-foto-perfil.jpg"
             };
 
             var resultadoCreate = await _userManager.CreateAsync(empleadoNuevo, Configs.Password);
