@@ -17,12 +17,14 @@ namespace CARRITO_D.Controllers
         private readonly UserManager<Persona> _userManager;
         private readonly SignInManager<Persona> _signInManager;
         private readonly CarritoContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public AccountController(UserManager<Persona> usermanager, SignInManager<Persona> signInManager, CarritoContext context)
+        public AccountController(UserManager<Persona> usermanager, SignInManager<Persona> signInManager, CarritoContext context, IWebHostEnvironment hostingEnvironment)
         {
             this._userManager = usermanager;
             this._signInManager = signInManager;
             this._context = context;
+            this._hostingEnvironment = hostingEnvironment;
         }
 
         #region Registracion
@@ -158,6 +160,99 @@ namespace CARRITO_D.Controllers
                 return RedirectToAction("Details", "Empleados", new { id = personaId });
             }
             
+        }
+
+
+        #endregion
+
+        #region Subir Foto
+
+        [HttpGet]
+        public IActionResult SubirFoto()
+        {
+            return View(new Representacion());
+        }
+
+        public async Task<IActionResult> SubirFoto(Representacion modelo)
+        {
+            var Persona = await _userManager.GetUserAsync(User);
+            string rootPath = _hostingEnvironment.WebRootPath;
+            string fotoPath = "img\\Default";
+            string userName = User.Identity.Name;
+
+            if (ModelState.IsValid)
+            {
+                if(modelo.Imagen != null && Persona != null)
+                {
+                    string nombreArchivoUnico = null;
+
+                    if(!string.IsNullOrEmpty(rootPath) && !string.IsNullOrEmpty(fotoPath) && modelo.Imagen != null)
+                    {
+                        try
+                        {
+                            string carpetaDestino = Path.Combine(rootPath, fotoPath);
+
+                            //Verifico si es para un usuario o por sistema
+                            nombreArchivoUnico = Guid.NewGuid().ToString() + (!string.IsNullOrEmpty(userName) ? "_" + userName : "_" + "Sistema") + "_"+ modelo.Imagen.FileName;
+
+                            string rutaCompletaArchivo = Path.Combine(carpetaDestino, nombreArchivoUnico);
+
+                            modelo.Imagen.CopyTo(new FileStream(rutaCompletaArchivo, FileMode.Create));
+                            Persona.Foto = nombreArchivoUnico;
+
+                            if (!string.IsNullOrEmpty(Persona.Foto))
+                            {
+                                _context.Personas.Update(Persona);
+                                _context.SaveChanges();
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError(string.Empty, "Error en el proceso de carga");
+                        }
+                    }
+                    ModelState.AddModelError(string.Empty, "Error Datos Insuficientes");
+                }
+            }
+
+            return View(modelo);
+        }
+
+        #endregion
+
+        #region Eliminar Foto
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarFoto(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            Persona persona;
+
+            if(id != 0)
+            {
+                persona = _context.Personas.Find(id);
+            }
+            else
+            {
+                persona = await _userManager.FindByNameAsync(User.Identity.Name);
+            }
+
+            if(persona != null)
+            {
+                if(persona.Foto != null)
+                { 
+                    string nuevoNombre = Configs.FotoDef;
+                    persona.Foto = nuevoNombre;
+                    _context.Personas.Update(persona);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
 

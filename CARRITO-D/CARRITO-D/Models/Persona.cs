@@ -49,9 +49,11 @@ namespace CARRITO_D.Models
         [Display(Name = Alias.FechaDeCreacion)]
         public DateTime FechaAlta { get; set; } = DateTime.Now; 
 
-        [DataType(DataType.PhoneNumber,ErrorMessage = ErrorMsg.TipoInvalido)]
-        [Range(1000000000, 9999999999, ErrorMessage =ErrorMsg.TipoInvalido)]
-        public int Telefono { get; set; } 
+        [DataType(DataType.PhoneNumber, ErrorMessage = ErrorMsg.TipoInvalido)]
+        [Range(1000000000, 9999999999, ErrorMessage = ErrorMsg.TipoInvalido)]
+        public int Telefono { get; set; }
+
+        public string Foto { get; set; } = Configs.FotoDef;
 
     }
 }

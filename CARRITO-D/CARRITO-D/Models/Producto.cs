@@ -19,6 +19,8 @@ namespace CARRITO_D.Models
         [Display(Name = Alias.ValorUnidad)]
         public float PrecioVigente { get; set; }  //usa 32 bits de espacio en vez de los 64 de double. Optimizacion de memoria
 
+        public string Foto { get; set; } = Configs.FotoProdDef;
+
         //LE PONEMOS UNA RELACION CON CATEGORIA, UN PRODUCTO DEBE TENER UNA CATEGORIA
         [Required(ErrorMessage =ErrorMsg.MsgReq)]
         public int CategoriaId { get; set; }

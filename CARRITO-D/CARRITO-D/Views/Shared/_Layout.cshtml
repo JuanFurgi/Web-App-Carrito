@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Persona usuario = null;
+
+    if(User.Identity.IsAuthenticated){
+        usuario = await userManager.GetUserAsync(User);
+    }
+
+    string fotoPath = Configs.FotoURL + (usuario == null ? Configs.FotoDef : usuario.Foto);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,7 +27,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul style="justify-content:flex-end" class="navbar-nav flex-grow-1 titles">
+                    <ul style="justify-content:flex-end; align-items:center" class="navbar-nav flex-grow-1 titles">
                         @if (signInManager.IsSignedIn(User))
                         {
                             //Mostrar cosas que un user con sesion iniciada ve
@@ -39,6 +49,22 @@
                                     <a class="nav-link links" asp-area="" asp-controller="Empleados" asp-action="VerHistorial">Historial Clientes</a>
                                 </li>
                             }
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src=@fotoPath width="40" height="40" class="rounded-circle" asp-append-version="true">
+                                </a>
+                                <ul class="dropdown-menu" style="font-family:Arial, Helvetica, sans-serif" aria-labelledby="navBarDropdown">
+                                    <li> <h6 class="dropdown-header">Hola @User.Identity.Name</h6></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="EditarMiPerfil">Mi perfil</a>
+                                    </li>
+                                    <li><br /></li>
+                                    <li>
+                                        <a class="dropdown-item text-white bg-danger" style="margin-bottom:0px" asp-area="" asp-controller="Account" asp-action="CerrarSesion"> Cerrar Sesion</a>
+                                    </li>
+                                </ul>
+                            </li>
                             if (User.IsInRole("Cliente"))
                             {
                                 <li class="nav-item">
@@ -50,17 +76,20 @@
 
                             }
 
-                            <li class="nav-item">
+                            
+                            <!--
+                                <li class="nav-item">
                                 <a class="nav-link navbar-usuario" asp-area="" asp-controller="Account" asp-action="EditarMiPerfil"></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link navbar-logout" asp-area="" asp-controller="Account" asp-action="CerrarSesion"></a>
-                            </li>
+                            </li> 
+                            -->
+                            
 
                         }
                         else
                         {
-                            //Mostrar cosas que un user SIN sesion iniciada ve
                             <li class="nav-item">
                                 <a class="nav-link links" asp-area="" asp-controller="Account" asp-action="Registrar">Registrarse</a>
                             </li>
