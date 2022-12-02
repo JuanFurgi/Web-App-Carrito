@@ -24,6 +24,8 @@
     <tbody>
         @foreach (var item in Model)
         {
+            string fotoPath = MisMetodos.getUrl(Configs.ProductosURL, item.Producto.Foto, Configs.FotoProdDef);
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Carrito.CarritoId)
@@ -39,6 +41,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Subtotal)
+                </td>
+                <td>
+                    <figure class="figure">
+
+                        <img src="@fotoPath" height="100px" width="100px" class="figure-img img-fluid rounded" alt="Foto Producto" asp-append-version="true">
+                    </figure>
                 </td>
             </tr>
         }

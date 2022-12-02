@@ -26,7 +26,15 @@
     <tbody>
         @foreach (var prod in Model.Productos.ToList())
         {
+            string fotoPath = MisMetodos.getUrl(Configs.ProductosURL, prod.Foto, Configs.FotoProdDef);
+
             <tr>
+                <td>
+                    <figure class="figure">
+
+                        <img src="@fotoPath" height="100px" width="100px" class="figure-img img-fluid rounded" alt="Foto Producto" asp-append-version="true">
+                    </figure>
+                </td>
                 <td>
                     @if (prod.Activo)
                     {
