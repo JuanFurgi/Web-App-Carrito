@@ -173,11 +173,12 @@ namespace CARRITO_D.Controllers
             return View(new Representacion());
         }
 
+        [HttpPost]
         public async Task<IActionResult> SubirFoto(Representacion modelo)
         {
             var Persona = await _userManager.GetUserAsync(User);
             string rootPath = _hostingEnvironment.WebRootPath;
-            string fotoPath = "img\\Default";
+            string fotoPath = Configs.FotoPATH;
             string userName = User.Identity.Name;
 
             if (ModelState.IsValid)

@@ -105,7 +105,8 @@ namespace CARRITO_D.Controllers
                     CategoriaId = encontrarCategoria("Camisetas").CategoriaId,
                     Activo = true,
                     PrecioVigente = 8000,
-                    Descripcion = "Camiseta Beige con logo de Klouth en el centro, minimalista"
+                    Descripcion = "Camiseta Beige con logo de Klouth en el centro, minimalista",
+                    Foto = "FotoCamiseta.png"
                 };
                 
                 Producto producto2 = new Producto()
@@ -114,7 +115,8 @@ namespace CARRITO_D.Controllers
                     CategoriaId = encontrarCategoria("Pantalones").CategoriaId,
                     Activo = false,
                     PrecioVigente = 5000,
-                    Descripcion = "Pantalon de jean marca Klouth"
+                    Descripcion = "Pantalon de jean marca Klouth",
+                    Foto = "FotoPantalon.png"
                 };
                 Producto producto3 = new Producto()
                 {
@@ -122,7 +124,8 @@ namespace CARRITO_D.Controllers
                     CategoriaId = encontrarCategoria("Shorts").CategoriaId,
                     Activo = true,
                     PrecioVigente = 2500,
-                    Descripcion = "Short negro marca Klouth, con hebilla color dorado"
+                    Descripcion = "Short negro marca Klouth, con hebilla color dorado",
+                    Foto = "FotoShort.png"
                 };
                 Producto producto4 = new Producto()
                 {
@@ -131,6 +134,7 @@ namespace CARRITO_D.Controllers
                     Activo = true,
                     PrecioVigente = 10000,
                     Descripcion = "Buzo negro con logo de Klouth, con capucha y detalles dorados",
+                    Foto = "FotoBuzo.png"
                 };
                 /*
                 agregarProductoACategoria(producto1);

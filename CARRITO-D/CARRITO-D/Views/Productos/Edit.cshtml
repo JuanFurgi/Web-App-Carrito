@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Editar";
+    string fotoPath = MisMetodos.getUrl(Configs.ProductosURL, Model.Foto, Configs.FotoProdDef);
 }
 
 <h1>Editar</h1>
@@ -9,6 +10,21 @@
 <h4>Producto</h4>
 <hr />
 <div class="row">
+    <div class="col-sm">
+        <figure class="figure">
+            @if (User.IsInRole("Empleado"))
+            {
+                <a asp-action="SubirFotoProducto" asp-controller="Productos" asp-route-id="@Model.Id">
+                    <img src="@fotoPath" width="400" height="400" class="figure-img img-fluid rounded" alt="Foto Producto" asp-append-version="true">
+                </a>
+            }
+            else
+            {
+                <img src="@fotoPath" class="figure-img img-fluid rounded" alt="Foto Producto" asp-append-version="true">
+            }
+            <figcaption class="figure-caption text-right">Foto Producto @Model.Nombre</figcaption>
+        </figure>
+    </div>
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -33,6 +49,9 @@
                 <label asp-for="PrecioVigente" class="control-label"></label>
                 <input asp-for="PrecioVigente" class="form-control" />
                 <span asp-validation-for="PrecioVigente" class="text-danger"></span>
+            </div>
+            <div hidden>
+                <input asp-for="Foto" class="form-control">
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

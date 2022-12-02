@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CARRITO_D.Data;
 using CARRITO_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using CARRITO_D.Helpers;
+using CARRITO_D.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace CARRITO_D.Controllers
 {
@@ -15,10 +18,12 @@ namespace CARRITO_D.Controllers
     public class ProductosController : Controller
     {
         private readonly CarritoContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public ProductosController(CarritoContext context)
+        public ProductosController(CarritoContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
+            this._hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Productos
@@ -171,6 +176,114 @@ namespace CARRITO_D.Controllers
             return RedirectToAction(nameof(Index));
         }
         */
+
+        #region Subir Foto
+
+        [HttpGet]
+        [Authorize(Roles ="Empleado")]
+        public IActionResult SubirFotoProducto(int? id)
+        {
+            var producto = _context.Productos.Find(id);
+            if(producto != null)
+            {
+                ViewData["Producto"] = producto;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return View(new Representacion());
+        }
+
+        [Authorize(Roles = "Empleado")]
+        public async Task<IActionResult> SubirFotoProducto(int? id, Representacion modelo)
+        {
+            var Producto = await _context.Productos.FindAsync(id);
+            string rootPath = _hostingEnvironment.WebRootPath;
+            string fotoPath = Configs.ProductosPATH;
+            string productoName = Producto.Nombre;
+
+            if (ModelState.IsValid)
+            {
+                if (modelo.Imagen != null && Producto != null)
+                {
+                    string nombreArchivoUnico = null;
+
+                    if (!string.IsNullOrEmpty(rootPath) && !string.IsNullOrEmpty(fotoPath) && modelo.Imagen != null)
+                    {
+                        try
+                        {
+                            string carpetaDestino = Path.Combine(rootPath, fotoPath);
+
+                            //Verifico si es para un usuario o por sistema
+                            nombreArchivoUnico = Guid.NewGuid().ToString() + (!string.IsNullOrEmpty(productoName) ? "_" + productoName : "_" + "Sistema") + "_" + modelo.Imagen.FileName;
+
+                            string rutaCompletaArchivo = Path.Combine(carpetaDestino, nombreArchivoUnico);
+
+                            modelo.Imagen.CopyTo(new FileStream(rutaCompletaArchivo, FileMode.Create));
+                            Producto.Foto = nombreArchivoUnico;
+
+                            if (!string.IsNullOrEmpty(Producto.Foto))
+                            {
+                                _context.Productos.Update(Producto);
+                                _context.SaveChanges();
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError(string.Empty, "Error en el proceso de carga");
+                        }
+                    }
+                    ModelState.AddModelError(string.Empty, "Error Datos Insuficientes");
+                }
+            }
+
+            return View(modelo);
+        }
+
+        #endregion
+
+        #region Eliminar Foto
+
+        [HttpPost]
+        public IActionResult EliminarFotoProducto(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Producto producto;
+
+            if (id != 0)
+            {
+                producto = _context.Productos.Find(id);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            if (producto != null)
+            {
+                if (producto.Foto != null)
+                {
+                    string nuevoNombre = Configs.FotoProdDef;
+                    producto.Foto = nuevoNombre;
+                    _context.Productos.Update(producto);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        #endregion
+
+
+
 
         private bool ProductoExists(int id)
         {

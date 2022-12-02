@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Detalles";
+    string fotoPath = MisMetodos.getUrl(Configs.FotoURL, Model.Foto, Configs.FotoDef);
 }
 
 <h1>Detalles</h1>
@@ -9,6 +10,14 @@
 <div>
     <h4>Cliente</h4>
     <hr />
+    <div class="col-sm">
+        <figure class="figure">
+
+            <img src="@fotoPath" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
+
+            <figcaption class="figure-caption text-right">Foto Cliente @Model.Nombre</figcaption>
+        </figure>
+    </div>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DNI)
@@ -61,6 +70,8 @@
     </dl>
 </div>
 <div>
-    <a class="links-modif" asp-action="EditarMiPerfil" asp-route-id="@Model?.Id">Editar mi perfil</a> |
+    @if(User.IsInRole("Cliente")){
+        <a class="links-modif" asp-action="EditarMiPerfil" asp-route-id="@Model?.Id">Editar mi perfil</a> <span> | </span>
+    }
     <a class="links-modif" asp-controller="Home" asp-action="Index">Volver</a>
 </div>

@@ -15,12 +15,12 @@
             @if (User.IsInRole("Cliente"))
             {
                 <a asp-action="SubirFoto" asp-controller="Account">
-                    <img src="@fotoPath" width="200" height="200" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
+                    <img src="@fotoPath" width="400" height="400" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
                 </a>
             }
             else
             {
-                <img src="@fotoPath" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
+                <img src="@fotoPath" width="400" height="400" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
             }
             <figcaption class="figure-caption text-right">Foto Cliente @Model.UserName</figcaption>
         </figure>
@@ -97,7 +97,9 @@
                 </div>
             }
 
-
+            <div hidden>
+                <input asp-for="Foto" class="form-control">
+            </div>
         </form>
     </div>
 </div>
