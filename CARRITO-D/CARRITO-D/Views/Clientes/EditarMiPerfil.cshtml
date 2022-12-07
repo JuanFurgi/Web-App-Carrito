@@ -17,12 +17,15 @@
                 <a asp-action="SubirFoto" asp-controller="Account">
                     <img src="@fotoPath" width="400" height="400" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
                 </a>
+                <figcaption class="figure-caption text-right">Foto Cliente @Model.UserName</figcaption>
+                <figcaption class="figure-caption text-right"><a asp-action="SubirFoto" asp-controller="Account">Cambiar Foto</a></figcaption>
             }
             else
             {
                 <img src="@fotoPath" width="400" height="400" class="figure-img img-fluid rounded" alt="Foto Cliente" asp-append-version="true">
+                <figcaption class="figure-caption text-right">Foto Cliente @Model.UserName</figcaption>
             }
-            <figcaption class="figure-caption text-right">Foto Cliente @Model.UserName</figcaption>
+            
         </figure>
     </div>
     <div class="col-md-4">
@@ -95,6 +98,7 @@
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
+
             }
 
             <div hidden>
