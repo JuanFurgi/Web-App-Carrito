@@ -105,7 +105,7 @@ namespace CARRITO_D.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Empleado")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Activo,Nombre,Descripcion,PrecioVigente,CategoriaId")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Activo,Nombre,Descripcion,PrecioVigente,CategoriaId,Foto")] Producto producto)
         {
             if (id != producto.Id)
             {
@@ -183,7 +183,7 @@ namespace CARRITO_D.Controllers
         [Authorize(Roles ="Empleado")]
         public IActionResult SubirFotoProducto(int? id)
         {
-            var producto = _context.Productos.Find(id);
+            var producto = _context.Productos.First(c => c.Id == id);
             if(producto != null)
             {
                 ViewData["Producto"] = producto;
@@ -199,6 +199,21 @@ namespace CARRITO_D.Controllers
         [Authorize(Roles = "Empleado")]
         public async Task<IActionResult> SubirFotoProducto(int? id, Representacion modelo)
         {
+            if(modelo.Imagen == null)
+            {
+                ModelState.AddModelError(string.Empty, "Ingrese una imagen antes");
+                var producto = _context.Productos.First(c => c.Id == id);
+                if (producto != null)
+                {
+                    ViewData["Producto"] = producto;
+                }
+                else
+                {
+                    return NotFound();
+                }
+                return View(modelo);
+            }
+
             var Producto = await _context.Productos.FindAsync(id);
             string rootPath = _hostingEnvironment.WebRootPath;
             string fotoPath = Configs.ProductosPATH;
@@ -228,7 +243,7 @@ namespace CARRITO_D.Controllers
                             {
                                 _context.Productos.Update(Producto);
                                 _context.SaveChanges();
-                                return RedirectToAction("Index", "Home");
+                                return RedirectToAction("Edit", "Productos", new {id = id});
                             }
                         }
                         catch
@@ -276,7 +291,7 @@ namespace CARRITO_D.Controllers
                     _context.SaveChanges();
                 }
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Edit", "Productos", new { id = id });
         }
 
 
