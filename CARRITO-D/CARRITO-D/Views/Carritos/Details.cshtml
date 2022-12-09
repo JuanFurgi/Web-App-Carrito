@@ -24,6 +24,9 @@
 
         </dl>
     </div>
+    <div>
+        <p class="text-danger">@ViewBag.Msg</p>
+    </div>
     <div class="border-top footer text-muted">
         <div class="container" style="margin-top:10px">
             <a asp-route-id="@signInManager.UserManager.GetUserId(User)" asp-action="Create" asp-controller="Compras" class="btn btn-success">Finalizar Compra</a>

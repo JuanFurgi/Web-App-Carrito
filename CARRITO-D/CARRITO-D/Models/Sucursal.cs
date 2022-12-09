@@ -1,9 +1,12 @@
 ﻿using CARRITO_D.Helpers;
+using Microsoft.VisualStudio.Web.CodeGeneration.CommandLine;
 using System.ComponentModel.DataAnnotations;
 
 namespace CARRITO_D.Models
 {
     public class Sucursal {
+
+        [Display(Name = Alias.Sucursal)]
         public int SucursalId { get; set; }
 
         [StringLength(20, MinimumLength = 4, ErrorMessage =ErrorMsg.MsgMaxMinStr)]

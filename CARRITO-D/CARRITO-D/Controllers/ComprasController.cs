@@ -86,6 +86,24 @@ namespace CARRITO_D.Controllers
          [ValidateAntiForgeryToken]
          public async Task<IActionResult> Create([Bind("SucursalId,CompraId,Total,CarritoId,ClienteId")] CompraNueva compra)
          {
+            Sucursal sucursal = _context.Sucursales.Include(c => c.StockItems).First(c => c.SucursalId == compra.SucursalId);
+            List<CarritoItem> items = _context.Carritos.Include(c =>c.CarritoItems).First(c => c.ClienteId == compra.ClienteId && c.Activo).CarritoItems;
+            if (!hayStock(sucursal, items))
+            {
+                List<Sucursal> sucursalesConStock = _context.Sucursales.Include(c => c.StockItems).ToList().Where(c => hayStock(c, items)).ToList();
+
+                if (!sucursalesConStock.Any())
+                {
+                    return RedirectToAction("Details", "Carritos", new { id = compra.ClienteId , msg = "No hay sucursales con stock de los productos seleccionados" });
+                }
+
+                ModelState.AddModelError(string.Empty, "Dicha sucursal no tiene stock de todos los productos pedidos");
+                ViewData["TotalValue"] = 0;
+                ViewData["ClienteId"] = compra.ClienteId;
+                ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == compra.ClienteId && c.Activo).CarritoId;
+                ViewData["Sucursales"] = new SelectList(sucursalesConStock, "SucursalId", "Nombre");
+                return View(compra);
+            }
 
             if (ModelState.IsValid)
              {
@@ -123,10 +141,34 @@ namespace CARRITO_D.Controllers
                 }
                                 
              }
-             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", compra.ClienteId);
-             ViewData["CarritoId"] = new SelectList(_context.Carritos, "Id", "Id");
-             return View(compra);
+            ViewData["TotalValue"] = 0;
+            ViewData["ClienteId"] = compra.ClienteId;
+            ViewData["CarritoId"] = _context.Carritos.First(c => c.ClienteId == compra.ClienteId && c.Activo).CarritoId;
+            ViewData["Sucursales"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
+            return View(compra);
          }
+
+        private bool hayStock(Sucursal sucursal, List<CarritoItem> items)
+        {
+            bool hayStock = true;
+            int i = 0;
+
+            while(i < items.Count && hayStock)
+            {
+                foreach(CarritoItem item in items)
+                {
+                    if(!sucursal.StockItems.Any(c => c.ProductoId == item.ProductoId))
+                    {
+                        hayStock = false;
+                        break;
+                    }
+                    i++;
+                }
+            }
+
+
+            return hayStock;
+        }
 
         private void crearNuevoCarrito(int id)
         {

@@ -36,7 +36,7 @@ namespace CARRITO_D.Controllers
         */
 
         // GET: Carritos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string? msg)
         {
             if (id == null || _context.Carritos == null)
             {
@@ -54,6 +54,10 @@ namespace CARRITO_D.Controllers
             if (carritoContext == null)
             {
                 return NotFound();
+            }
+            if (msg != null)
+            {
+                ViewData["Msg"] = msg;
             }
 
             return View(carritoContext);
