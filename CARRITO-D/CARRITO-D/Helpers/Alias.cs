@@ -10,5 +10,6 @@
         public const string RolName = "Nombre";
         public const string Password = "Contraseña";
         public const string ConfirmarPassword = "Confirmar Contraseña";
+        public const string FechaDeCompra = "Fecha de Compra";
     }
 }

@@ -14,6 +14,11 @@ namespace CARRITO_D.ViewModels
         [Range(0, int.MaxValue, ErrorMessage = ErrorMsg.MsgMinMaxRange)] // CUANDO SE USAN DESCUENTOS PUEDE PASAR Q QUEDE EN 0
         public float Total { get; set; } = 1;
 
+        [DataType(DataType.Date, ErrorMessage = ErrorMsg.TipoInvalido)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+        [Display(Name = Alias.FechaDeCompra)]
+        public DateTime Fecha { get; set; } = DateTime.Now;
+
         [Required(ErrorMessage = ErrorMsg.MsgReq)]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }

@@ -30,12 +30,12 @@ namespace CARRITO_D.Controllers
         {
             if(id == null)
             {
-                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito);
+                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).OrderBy(c => c.Fecha);
                 return View(await carritoContext.ToListAsync());
             }
             else
             {
-                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).Where(c => c.ClienteId == id);
+                var carritoContext = _context.Compras.Include(c => c.Cliente).Include(c => c.Carrito).Where(c => c.ClienteId == id).OrderBy(c => c.Fecha);
                 return View(carritoContext);
             }
 
@@ -132,11 +132,13 @@ namespace CARRITO_D.Controllers
 
                     desactivarCarrito(compra.CarritoId);
                     crearNuevoCarrito(compra.ClienteId);
+                    eliminarItemsDeStock(sucursalNueva, items);
 
                     _context.Compras.Add(compraNueva);
                     await _context.SaveChangesAsync();
                     compra.Total = total;
                     compra.CompraId = compraNueva.CompraId;
+                    compra.Fecha = DateTime.Now;
                     return RedirectToAction(nameof(Agradecimiento), compra);
                 }
                                 
@@ -147,6 +149,16 @@ namespace CARRITO_D.Controllers
             ViewData["Sucursales"] = new SelectList(_context.Sucursales, "SucursalId", "Nombre");
             return View(compra);
          }
+
+        private void eliminarItemsDeStock(Sucursal sucursalNueva, List<CarritoItem> items)
+        {
+            foreach(var item in items)
+            {
+                StockItem itemDeStock = _context.StocksItems.First(c => c.SucursalId == sucursalNueva.SucursalId && c.ProductoId == item.ProductoId);
+                sucursalNueva.StockItems.Remove(itemDeStock);
+            }
+            
+        }
 
         private bool hayStock(Sucursal sucursal, List<CarritoItem> items)
         {
