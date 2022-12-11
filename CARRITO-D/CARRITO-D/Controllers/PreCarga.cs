@@ -32,24 +32,12 @@ namespace CARRITO_D.Controllers
             CrearCategoria().Wait();
             CrearProductos();
             CrearSucursales();
+            CrearStockItems();
 
             return RedirectToAction("Index", "Home", new { mensaje="Proceso de Seed Finalizado"});
         }
 
-        private void CrearSucursales()
-        {
-            Sucursal sucursal = new Sucursal()
-            {
-                Direccion = "Av. Libertador 1900",
-                Nombre = "Klouth Olivos",
-                Telefono = 1147903409,
-                Email = "klouth.olivos@klouth.com.ar",
-                StockItems = new List<StockItem>()
-            };
-
-            _context.Sucursales.Add(sucursal);
-            _context.SaveChanges();
-        }
+        
         
 
         private async Task CrearCategoria()
@@ -147,11 +135,63 @@ namespace CARRITO_D.Controllers
                 _context.Productos.Add(producto3);
                 _context.Productos.Add(producto4);
                 _context.SaveChanges();
-            }
+            }   
+        }
 
-            
+        
 
-            
+        private void CrearSucursales()
+        {
+            Sucursal sucursal = new Sucursal()
+            {
+                Direccion = "Av. Libertador 1900",
+                Nombre = "Klouth Olivos",
+                Telefono = 1147903409,
+                Email = "klouth.olivos@klouth.com.ar",
+                StockItems = new List<StockItem>()
+            };
+
+            Sucursal sucursal2 = new Sucursal()
+            {
+                Direccion = "Av. Elflein 894",
+                Nombre = "Klouth Martinez",
+                Telefono = 1147904859,
+                Email = "klouth.martinez@klouth.com.ar",
+                StockItems = new List<StockItem>()
+            };
+
+            _context.Sucursales.Add(sucursal);
+            _context.Sucursales.Add(sucursal2);
+            _context.SaveChanges();
+        }
+
+        private void CrearStockItems()
+        {
+            StockItem stockitem1 = new StockItem()
+            {
+                Cantidad = 2,
+                ProductoId = _context.Productos.First(c => c.Nombre == "Camiseta").Id,
+                SucursalId = _context.Sucursales.First().SucursalId
+            };
+
+            StockItem stockitem2 = new StockItem()
+            {
+                Cantidad = 2,
+                ProductoId = _context.Productos.First(c => c.Nombre == "Pantalon").Id,
+                SucursalId = _context.Sucursales.First(c => c.Nombre == "Klouth Martinez").SucursalId
+            };
+
+            agregarASucursal(stockitem1);
+            agregarASucursal(stockitem2);
+
+            _context.StocksItems.Add(stockitem1);
+            _context.StocksItems.Add(stockitem2);
+            _context.SaveChanges();
+        }
+
+        private void agregarASucursal(StockItem stockitem)
+        {
+            _context.Sucursales.Include(c => c.StockItems).First(c => c.SucursalId == stockitem.SucursalId).StockItems.Add(stockitem);
         }
 
         private async Task CrearClientes()
